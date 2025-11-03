@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌟 SeeMe Landing Page
 
-## Getting Started
+Ultra-minimalistic horizontal scroll landing page for SeeMe - AI-powered mental health & life coaching app.
 
-First, run the development server:
+## 🎯 Features
+
+- **Horizontal GSAP Scroll** - Cinematic one-page experience
+- **5 Seasonal Scenes** - Spring, Summer, Autumn, Winter transitions
+- **Fixed iPhone Mockup** - Centered with floating animation
+- **Parallax Backgrounds** - Depth and movement
+- **Zero Vertical Scroll** - Pure horizontal navigation
+- **Responsive** - Mobile & desktop optimized
+
+## 🚀 Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+/components
+  HorizontalScroll.tsx  # Main scroll container
+  Scene.tsx             # Individual scene component
+  IPhoneMockup.tsx      # Centered phone mockup
+/app
+  page.tsx              # Entry point
+  globals.css           # Global styles
+```
 
-## Learn More
+## 🎨 Customization
 
-To learn more about Next.js, take a look at the following resources:
+### Replace Background Images
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Edit `/components/HorizontalScroll.tsx` - update the `scenes` array:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```typescript
+const scenes = [
+  {
+    background: '/your-spring-image.jpg', // Replace with your AI-generated images
+    title: 'Welcome to SeeMe',
+    // ...
+  },
+  // ...
+]
+```
 
-## Deploy on Vercel
+### Update Content
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Titles/Subtitles**: Edit `scenes` array in `HorizontalScroll.tsx`
+- **iPhone Screen**: Modify `IPhoneMockup.tsx` component
+- **Colors**: Update Tailwind classes in components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Add Real App Store Link
+
+In `Scene.tsx`, update the App Store URL:
+
+```typescript
+<a href="YOUR_APP_STORE_LINK">
+```
+
+## 🛠️ Tech Stack
+
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS
+- GSAP 3 + ScrollTrigger
+- React 19
+
+## 📝 TODO
+
+- [ ] Replace Unsplash placeholders with AI-generated seasonal backgrounds
+- [ ] Add real iPhone screen content (videos/screenshots)
+- [ ] Update App Store link
+- [ ] Add analytics
+- [ ] Optimize images for production
+
+## 🎬 Animation Details
+
+- **Horizontal Scroll**: GSAP ScrollTrigger with scrub
+- **Parallax**: Background moves slower than scroll
+- **iPhone Float**: Subtle y-axis animation
+- **Smooth Transitions**: 60fps performance
+
+Built with ❤️ for SeeMe
