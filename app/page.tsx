@@ -1,5 +1,5 @@
-import HorizontalScroll from '@/components/HorizontalScroll'
+import CinematicLanding from '@/components/CinematicLanding'
 
 export default function Home() {
-  return <HorizontalScroll />
+  return <CinematicLanding />
 }
