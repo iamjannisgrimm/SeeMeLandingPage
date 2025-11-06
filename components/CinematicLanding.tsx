@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'next/image'
+import Lottie from 'lottie-react'
+import helloAnimation from '../public/Hello.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -53,6 +55,9 @@ export default function CinematicLanding() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const backgroundRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
+  const helloLottieRef = useRef<HTMLDivElement>(null)
+  const lottieInstanceRef = useRef<any>(null)
+  const downloadButtonRef = useRef<HTMLDivElement>(null)
   
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [videoLoaded, setVideoLoaded] = useState(false)
@@ -67,25 +72,30 @@ export default function CinematicLanding() {
       })
       gsap.set(videoRef.current, { 
         opacity: 0,
-        scale: 0.8,
-        y: 50,
+        scale: 0.7,
+        y: 100,
         visibility: 'hidden' // Completely hide video initially
       })
 
       // Set initial state for coaches
-      coaches.forEach((coach) => {
-        gsap.set(`.coach-${coach.id}`, {
-          opacity: 0,
-          scale: 0.5,
-          y: 30
-        })
+      gsap.set(coaches.map(c => `.coach-${c.id}`), {
+        opacity: 0,
+        scale: 0.8,
+        y: 30
       })
-
-      // Set initial state for cycling text
       gsap.set(textRef.current, {
         opacity: 1,
         y: 0,
         scale: 1
+      })
+      gsap.set(helloLottieRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        visibility: 'hidden'
+      })
+      gsap.set(downloadButtonRef.current, {
+        opacity: 0,
+        y: 30
       })
 
       // Create the main timeline with ultra-smooth cinematic scroll
@@ -94,15 +104,9 @@ export default function CinematicLanding() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 8, // Much slower - forces deliberate scrolling
+          scrub: 1, // Responsive to scroll - follows user input directly
           pin: '.fixed',
           anticipatePin: 1,
-          snap: {
-            snapTo: [0, 0.17, 0.33, 0.5, 0.67, 0.83, 1], // 7 snap points for 6 backgrounds
-            duration: { min: 0.4, max: 0.8 }, // Slightly longer snaps
-            delay: 0.6, // Longer delay before snapping
-            ease: 'power2.inOut'
-          },
           onUpdate: (self) => {
             const progress = self.progress
             
@@ -164,17 +168,17 @@ export default function CinematicLanding() {
           duration: 0.7, // Slower
           ease: 'power2.inOut'
         }, '<+0.15')
-
-      // Phase 2: Video reveal (35% - 60%) - ultra smooth and cinematic
-      mainTimeline
-        .set(videoRef.current, { visibility: 'visible', autoAlpha: 1 }) // Make visible instantly
+        // Start video reveal with slight delay for smoother effect
+        .set(videoRef.current, { visibility: 'visible', autoAlpha: 1 }, '<+0.2')
         .to(videoRef.current, {
           opacity: 1,
           scale: 1,
           y: 0,
-          duration: 1, // Much slower, more cinematic reveal
-          ease: 'power2.out'
+          duration: 2, // Slower, more gradual reveal
+          ease: 'power3.out' // Smoother easing curve
         }, '<')
+
+      // Phase 2: Video stays visible (35% - 60%)
 
       // Phase 3: Coaches appear (60% - 80%) - ultra smooth cascade
       coaches.forEach((coach, index) => {
@@ -199,9 +203,59 @@ export default function CinematicLanding() {
         })
       })
 
-      // Phase 4: Text cycling (80% - 100%)
+      // Phase 4: Text cycling (80% - 85%)
       mainTimeline
-        .to({}, { duration: 0.2 }) // Hold for text cycling
+        .to({}, { duration: 0.15 }) // Hold for text cycling
+
+      // Phase 5: Hello Lottie animation reveal (85% - 95%) - plays when reaching backg5.jpg
+      mainTimeline
+        .to(videoRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          duration: 0.6,
+          ease: 'power2.inOut'
+        })
+        .to(textRef.current, {
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.6,
+          ease: 'power2.inOut'
+        }, '<')
+        .to(coaches.map(c => `.coach-${c.id}`), {
+          opacity: 0,
+          scale: 0.9,
+          duration: 0.6,
+          ease: 'power2.inOut'
+        }, '<')
+        .to(helloLottieRef.current, {
+          visibility: 'visible',
+          autoAlpha: 1,
+          opacity: 1,
+          scale: 1,
+          duration: 1,
+          ease: 'power2.inOut',
+          onStart: () => {
+            // Play Lottie animation when scrolling forward
+            if (lottieInstanceRef.current) {
+              lottieInstanceRef.current.goToAndPlay(0)
+            }
+          },
+          onReverseComplete: () => {
+            // Stop Lottie animation when scrolling back
+            if (lottieInstanceRef.current) {
+              lottieInstanceRef.current.stop()
+            }
+          }
+        })
+
+      // Phase 6: Download button reveal (95% - 100%)
+      mainTimeline
+        .to(downloadButtonRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.inOut' // Changed for smooth reverse
+        })
 
     }, containerRef)
 
@@ -253,7 +307,7 @@ export default function CinematicLanding() {
   }, [currentTextIndex, isFirstRender])
 
   return (
-    <div ref={containerRef} className="h-[800vh] w-full relative">
+    <div ref={containerRef} className="h-[1000vh] w-full relative">
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden snap-y snap-mandatory">
         {/* Dynamic Backgrounds */}
@@ -358,10 +412,11 @@ export default function CinematicLanding() {
           <div className="relative">
             <video
               ref={videoRef}
-              className="w-80 h-[600px] rounded-[3rem] shadow-2xl object-cover invisible"
-              controls
-              muted
+              className="w-full max-w-3xl rounded-3xl shadow-2xl border-4 border-white/20 invisible pointer-events-none"
               playsInline
+              loop
+              muted
+              autoPlay
               onLoadedData={() => setVideoLoaded(true)}
               style={{ visibility: 'hidden' }}
             >
@@ -405,8 +460,8 @@ export default function CinematicLanding() {
           </div>
         ))}
 
-        {/* Cycling Text - More Prominent with Gradient Highlights */}
-        <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 text-center w-full px-8">
+        {/* Cycling Text - Temporarily Hidden */}
+        <div className="absolute bottom-56 left-1/2 transform -translate-x-1/2 text-center w-full px-8 hidden">
           <div className="relative">
             {/* Glow effect behind text */}
             <div className="absolute inset-0 bg-white/10 blur-3xl rounded-full" />
@@ -435,8 +490,30 @@ export default function CinematicLanding() {
           </div>
         </div>
 
-        {/* App Store Button */}
-        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
+        {/* Hello Lottie Animation (Final Animation - plays when reaching backg5.jpg) */}
+        <div 
+          ref={helloLottieRef}
+          className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center overflow-hidden"
+          style={{ visibility: 'hidden' }}
+        >
+          <Lottie
+            lottieRef={lottieInstanceRef}
+            animationData={helloAnimation}
+            loop={true}
+            autoplay={false}
+            style={{
+              width: '120%',
+              height: '120%',
+              transform: 'scale(1.1)'
+            }}
+            rendererSettings={{
+              preserveAspectRatio: 'xMidYMid slice'
+            }}
+          />
+        </div>
+
+        {/* App Store Button (appears after Hello animation) */}
+        <div ref={downloadButtonRef} className="absolute bottom-16 left-1/2 transform -translate-x-1/2">
           <button className="bg-white/90 backdrop-blur-sm text-slate-900 px-8 py-4 rounded-2xl font-semibold hover:bg-white transition-all duration-300 shadow-2xl flex items-center gap-3">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
