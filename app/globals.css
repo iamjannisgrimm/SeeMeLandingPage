@@ -8,8 +8,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-space-grotesk);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,13 +20,16 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
 /* Hide default cursor on desktop for custom cursor */
@@ -47,18 +48,75 @@ html {
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* Enhanced typography system */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-space-grotesk), sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 
 p {
-  font-family: var(--font-inter), sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.6;
   letter-spacing: -0.01em;
+}
+
+/* Prevent any horizontal overflow on mobile */
+#__next,
+main,
+div[class*="container"] {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Ensure viewport is properly constrained */
+body > div {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Mobile-specific fixes for black space issues */
+@media (max-width: 768px) {
+  html, body {
+    width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  body > div,
+  #__next {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* Hide scrollbar for horizontal carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fade in animation for final text */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
