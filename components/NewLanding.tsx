@@ -11,20 +11,18 @@ gsap.registerPlugin(ScrollTrigger);
 const backgrounds = [
   '/backgrounds/backg1.png',
   '/backgrounds/backg2.png',
+  '/backgrounds/backg2.png',
+  '/backgrounds/backg3.png',
   '/backgrounds/backg3.png',
   '/backgrounds/backg4.png',
   '/backgrounds/backg5.png',
   '/backgrounds/backg6.png',
-  '/backgrounds/backg7.png',
-  '/backgrounds/backg8.png',
-  '/backgrounds/backg9.png',
 ];
 
 const NewLanding = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
-  // Preload all images
   const [imagesLoaded, setImagesLoaded] = useState(false);
   
   useEffect(() => {
@@ -59,13 +57,10 @@ const NewLanding = () => {
     });
   }, []);
 
-  // Coach animation state for section 2
   const section2Ref = useRef<HTMLDivElement>(null);
-
-  // Track scroll progress for section visibility
   const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Smooth background transitions with GSAP and magnetic scroll
+  // Smooth background transitions with GSAP
   useEffect(() => {
     if (!imagesLoaded) return;
 
@@ -74,19 +69,16 @@ const NewLanding = () => {
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 2, // Slower, smoother scroll response
-        // NO SNAP - let user control their own pace
+        scrub: 2,
         onUpdate: (self) => {
           const progress = self.progress;
           setScrollProgress(progress);
           
-          // Map progress to background index (0-8 for 9 backgrounds)
           const exactBgIndex = progress * (backgrounds.length - 1);
           const bgIndex = Math.floor(exactBgIndex);
           const nextBgIndex = Math.min(bgIndex + 1, backgrounds.length - 1);
           
           if (backgroundRef.current) {
-            // Set all backgrounds to 0 opacity first
             backgrounds.forEach((_, index) => {
               const bg = backgroundRef.current!.querySelector(`[data-bg="${index}"]`) as HTMLElement;
               if (bg) gsap.set(bg, { opacity: 0 });
@@ -96,10 +88,8 @@ const NewLanding = () => {
             const nextBg = backgroundRef.current.querySelector(`[data-bg="${nextBgIndex}"]`) as HTMLElement;
             
             if (currentBg && nextBg && bgIndex !== nextBgIndex) {
-              // Raw progress within this background section (0 to 1)
               const bgProgress = exactBgIndex - bgIndex;
               
-              // Delay background transition: start at 20% through the section, end at 80%
               const delayedStart = 0.20;
               const delayedEnd = 0.80;
               const transitionWindow = delayedEnd - delayedStart;
@@ -117,7 +107,6 @@ const NewLanding = () => {
               gsap.set(currentBg, { opacity: 1 - adjustedProgress });
               gsap.set(nextBg, { opacity: adjustedProgress });
             } else if (currentBg) {
-              // At the very end, just show the last background
               gsap.set(currentBg, { opacity: 1 });
             }
           }
@@ -137,32 +126,31 @@ const NewLanding = () => {
     { id: 6, img: '/coaches/c6.png', delay: 2.0 },
   ];
 
-  // Helper function - content visible only during its exact background
   const getSectionOpacity = (sectionStart: number, sectionEnd: number) => {
     if (scrollProgress < sectionStart || scrollProgress >= sectionEnd) return 0;
     
     const sectionDuration = sectionEnd - sectionStart;
-    const fadeInEnd = sectionStart + sectionDuration * 0.1; // Quick 10% fade in
-    const fadeOutStart = sectionEnd - sectionDuration * 0.1; // Quick 10% fade out
+    const fadeInEnd = sectionStart + sectionDuration * 0.1;
+    const fadeOutStart = sectionEnd - sectionDuration * 0.1;
     
     if (scrollProgress < fadeInEnd) {
       return gsap.utils.mapRange(sectionStart, fadeInEnd, 0, 1, scrollProgress);
     } else if (scrollProgress > fadeOutStart) {
       return 1 - gsap.utils.mapRange(fadeOutStart, sectionEnd, 0, 1, scrollProgress);
     }
-    return 1; // Fully visible for 80% of the section
+    return 1;
   };
 
   const getElementTransform = (sectionStart: number, sectionEnd: number, direction: 'left' | 'right' | 'up' | 'scale' = 'up') => {
     if (scrollProgress < sectionStart || scrollProgress >= sectionEnd) {
-      if (direction === 'left') return 'translateX(-50px)'; // Increased from -30px
-      if (direction === 'right') return 'translateX(50px)'; // Increased from 30px
-      if (direction === 'up') return 'translateY(50px)'; // Increased from 30px
-      if (direction === 'scale') return 'scale(0.92)'; // More dramatic scale
+      if (direction === 'left') return 'translateX(-50px)';
+      if (direction === 'right') return 'translateX(50px)';
+      if (direction === 'up') return 'translateY(50px)';
+      if (direction === 'scale') return 'scale(0.92)';
     }
     
-    const fadeInEnd = sectionStart + (sectionEnd - sectionStart) * 0.2; // Quick entry
-    const fadeOutStart = sectionEnd - (sectionEnd - sectionStart) * 0.2; // Quick exit
+    const fadeInEnd = sectionStart + (sectionEnd - sectionStart) * 0.2;
+    const fadeOutStart = sectionEnd - (sectionEnd - sectionStart) * 0.2;
     
     if (scrollProgress < fadeInEnd) {
       const progress = gsap.utils.mapRange(sectionStart, fadeInEnd, 0, 1, scrollProgress);
@@ -182,8 +170,79 @@ const NewLanding = () => {
     return 'translate(0)';
   };
 
+  const reviews = [
+    {
+      name: "Maya, 32 — Berlin",
+      category: "Personal Growth & Clarity",
+      text: "SeeMe helped me connect the dots in my life — it's like having a calm, intelligent coach who actually remembers me and keeps me focused.",
+      rating: 5
+    },
+    {
+      name: "Daniel, 29 — Toronto",
+      category: "Privacy & Safety",
+      text: "I never realized how much I held back with other AI tools until SeeMe. Knowing my data stays mine changes everything — I can actually be honest.",
+      rating: 5
+    },
+    {
+      name: "Lina, 27 — San Francisco",
+      category: "Daily Reflection & Balance",
+      text: "The morning check-ins are my favorite part of the day. They keep me grounded and remind me to slow down before things spiral.",
+      rating: 5
+    },
+    {
+      name: "Sophie, 41 — London",
+      category: "Expert-Guided Coaching Feel",
+      text: "It feels like talking to a real mentor — thoughtful questions, real structure, and gentle accountability without pressure.",
+      rating: 5
+    },
+    {
+      name: "Arjun, 35 — Mumbai",
+      category: "Emotional Connection & Trust",
+      text: "SeeMe listens in a way no app ever has. It doesn't just respond — it understands where I am and helps me grow from there.",
+      rating: 5
+    },
+    {
+      name: "Isabella, 30 — New York",
+      category: "Intelligent Questions / Deep Understanding",
+      text: "It's wild how well SeeMe knows me now. The questions it asks cut right to the heart of what I'm feeling — like it sees what I can't yet name.",
+      rating: 5
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const reviewVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 60,
+      scale: 0.9,
+      rotateX: -15
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        type: "spring" as const,
+        damping: 20,
+        stiffness: 100,
+        duration: 0.8
+      }
+    }
+  };
+
   return (
-    <div ref={containerRef} className="h-[3000vh] w-screen max-w-full relative overflow-x-hidden">
+    <div ref={containerRef} className="h-[800vh] w-screen max-w-full relative overflow-x-hidden">
       {/* Loading indicator */}
       {!imagesLoaded && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
@@ -196,16 +255,14 @@ const NewLanding = () => {
 
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
-        {/* Dynamic Backgrounds with smooth transitions */}
+        {/* Dynamic Backgrounds */}
         <div ref={backgroundRef} className="absolute inset-0 z-0 w-full h-full">
           {backgrounds.map((bg, index) => (
             <div
               key={`bg-${index}`}
               data-bg={index}
               className="absolute inset-0 w-full h-full"
-              style={{
-                opacity: index === 0 ? 1 : 0,
-              }}
+              style={{ opacity: index === 0 ? 1 : 0 }}
             >
               <Image
                 src={bg}
@@ -218,7 +275,6 @@ const NewLanding = () => {
               />
             </div>
           ))}
-          {/* Subtle overlay for better text readability */}
           <div className="absolute inset-0 w-full h-full bg-black/10" />
         </div>
 
@@ -226,14 +282,14 @@ const NewLanding = () => {
         <div 
           className="absolute inset-0 flex items-center justify-center"
           style={{ 
-            opacity: scrollProgress <= 1/9 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/9, 0, 1, scrollProgress)) : 0,
-            pointerEvents: scrollProgress < 1/9 ? 'auto' : 'none' 
+            opacity: scrollProgress <= 1/8 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/8, 0, 1, scrollProgress)) : 0,
+            pointerEvents: scrollProgress < 1/8 ? 'auto' : 'none' 
           }}
         >
           <div 
             className="relative z-10 flex flex-col items-center justify-center text-center px-4 -mt-8 md:mt-0 md:mb-16 transition-transform duration-500 ease-out"
             style={{ 
-              transform: scrollProgress < 0.08 ? 'translateY(0)' : `translateY(${-gsap.utils.mapRange(0.08, 1/9, 0, 30, scrollProgress)}px)`
+              transform: scrollProgress < 0.08 ? 'translateY(0)' : `translateY(${-gsap.utils.mapRange(0.08, 1/8, 0, 30, scrollProgress)}px)`
             }}
           >
             <h1 
@@ -241,7 +297,7 @@ const NewLanding = () => {
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 900,
-                opacity: scrollProgress <= 1/9 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/9, 0, 1, scrollProgress)) : 0
+                opacity: scrollProgress <= 1/8 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/8, 0, 1, scrollProgress)) : 0
               }}
             >
               <span
@@ -249,7 +305,7 @@ const NewLanding = () => {
                 style={{
                   transform: scrollProgress < 0.03 
                     ? 'translateX(0px) rotate(0deg) scale(1)' 
-                    : `translateX(${-gsap.utils.mapRange(0.03, 0.08, 0, 150, Math.min(scrollProgress, 0.08))}px) rotate(${-gsap.utils.mapRange(0.03, 0.08, 0, 3, Math.min(scrollProgress, 0.08))}deg) scale(${1 - gsap.utils.mapRange(0.08, 1/9, 0, 0.08, scrollProgress)})`
+                    : `translateX(${-gsap.utils.mapRange(0.03, 0.08, 0, 150, Math.min(scrollProgress, 0.08))}px) rotate(${-gsap.utils.mapRange(0.03, 0.08, 0, 3, Math.min(scrollProgress, 0.08))}deg) scale(${1 - gsap.utils.mapRange(0.08, 1/8, 0, 0.08, scrollProgress)})`
                 }}
               >
                 See
@@ -259,7 +315,7 @@ const NewLanding = () => {
                 style={{
                   transform: scrollProgress < 0.03 
                     ? 'translateX(0px) rotate(0deg) scale(1)' 
-                    : `translateX(${gsap.utils.mapRange(0.03, 0.08, 0, 150, Math.min(scrollProgress, 0.08))}px) rotate(${gsap.utils.mapRange(0.03, 0.08, 0, 3, Math.min(scrollProgress, 0.08))}deg) scale(${1 - gsap.utils.mapRange(0.08, 1/9, 0, 0.08, scrollProgress)})`
+                    : `translateX(${gsap.utils.mapRange(0.03, 0.08, 0, 150, Math.min(scrollProgress, 0.08))}px) rotate(${gsap.utils.mapRange(0.03, 0.08, 0, 3, Math.min(scrollProgress, 0.08))}deg) scale(${1 - gsap.utils.mapRange(0.08, 1/8, 0, 0.08, scrollProgress)})`
                 }}
               >
                 Me
@@ -270,81 +326,71 @@ const NewLanding = () => {
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 400,
-                opacity: scrollProgress <= 1/9 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/9, 0, 1, scrollProgress)) : 0
+                opacity: scrollProgress <= 1/8 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/8, 0, 1, scrollProgress)) : 0
               }}
             >
-              My Companion for greatness
+              My Personal Intelligence Platform
             </p>
             
-            {/* iPhone Mockup with Video - Section 1 */}
             <div
-              className="relative w-[300px] h-[615px] sm:w-[220px] sm:h-[450px] md:w-[260px] md:h-[530px] transition-all duration-1000 ease-out"
+              className="relative w-[280px] h-[615px] sm:w-[200px] sm:h-[450px] md:w-[240px] md:h-[530px] transition-all duration-1000 ease-out rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
               style={{
                 opacity: scrollProgress < 0.14 ? 1 : gsap.utils.mapRange(0.14, 0.18, 1, 0, Math.min(scrollProgress, 0.18)),
                 transform: scrollProgress < 0.08 
                   ? 'scale(1)' 
                   : `scale(${gsap.utils.mapRange(0.08, 0.18, 1, 1.35, Math.min(scrollProgress, 0.18))})`,
-                pointerEvents: scrollProgress < 1/9 ? 'auto' : 'none'
+                pointerEvents: scrollProgress < 1/8 ? 'auto' : 'none'
               }}
             >
-              <div className="absolute inset-0 bg-black rounded-[40px] border-[4px] border-gray-900 shadow-2xl">
-                <div className="absolute inset-[2px] rounded-[36px] overflow-hidden">
-                  <video
-                    src="/videos/video1.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+              <video
+                src="/videos/video1.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Section 2 - My Personal Network of Coaches */}
+        {/* Section 2 - My Custom Network of Coaches */}
         <div 
           ref={section2Ref} 
           className="absolute inset-0 flex items-center justify-center"
-          style={{ opacity: getSectionOpacity(1/9, 2/9), pointerEvents: scrollProgress >= 1/9 && scrollProgress < 2/9 ? 'auto' : 'none' }}
+          style={{ opacity: getSectionOpacity(1/8, 2/8), pointerEvents: scrollProgress >= 1/8 && scrollProgress < 2/8 ? 'auto' : 'none' }}
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0">
-          {/* Left Text */}
           <div 
             className="flex-1 text-center transition-all duration-1000 ease-out"
             style={{
-              opacity: getSectionOpacity(1/9, 2/9),
-              transform: `translateY(${scrollProgress >= 1/9 && scrollProgress < 2/9 ? 0 : 30}px) scale(${scrollProgress >= 1/9 && scrollProgress < 2/9 ? 1 : 0.95})`
+              opacity: getSectionOpacity(1/8, 2/8),
+              transform: `translateY(${scrollProgress >= 1/8 && scrollProgress < 2/8 ? 0 : 30}px) scale(${scrollProgress >= 1/8 && scrollProgress < 2/8 ? 1 : 0.95})`
             }}
           >
             <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
-              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}
             >
-              My Personal<br />Network of<br />Coaches
+              My custom<br />network of<br />coaches
             </h2>
           </div>
 
-          {/* Center iPhone Mockup with Flying Coaches */}
           <div className="flex-1 flex items-center justify-center relative">
-            <div className="relative w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px]">
-              <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl overflow-hidden">
-                <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                  <video
-                    src="/videos/video2.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
+            <div className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden">
+              <video
+                src="/videos/video2.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
 
-              {/* Flying Coach Avatars - fly INTO device */}
               <AnimatePresence>
-                {scrollProgress >= 1/9 && scrollProgress < 2/9 && coaches.map((coach, index) => {
+                {scrollProgress >= 1/8 && scrollProgress < 2/8 && coaches.map((coach, index) => {
                   const angle = (index / coaches.length) * Math.PI * 2;
                   const radius = 250;
                   const startX = Math.cos(angle) * radius;
@@ -389,7 +435,6 @@ const NewLanding = () => {
             </div>
           </div>
 
-            {/* Right spacer for balance */}
             <div className="flex-1" />
           </div>
         </div>
@@ -397,60 +442,58 @@ const NewLanding = () => {
         {/* Section 3 - Coaches that really KNOW me */}
         <div 
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-          style={{ opacity: getSectionOpacity(2/9, 3/9), pointerEvents: scrollProgress >= 2/9 && scrollProgress < 3/9 ? 'auto' : 'none' }}
+          style={{ opacity: getSectionOpacity(2/8, 3/8), pointerEvents: scrollProgress >= 2/8 && scrollProgress < 3/8 ? 'auto' : 'none' }}
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left Text */}
           <div 
             className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out"
             style={{
-              opacity: getSectionOpacity(2/9, 3/9),
-              transform: `translateX(${scrollProgress >= 2/9 && scrollProgress < 3/9 ? 0 : -30}px) scale(${scrollProgress >= 2/9 && scrollProgress < 3/9 ? 1 : 0.95})`
+              opacity: getSectionOpacity(2/8, 3/8),
+              transform: `translateX(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 0 : -30}px) scale(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 1 : 0.95})`
             }}
           >
             <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
-              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}
             >
-              Coaches<br />that really<br />KNOW me
+              Coaches<br />that really<br />know me
             </h2>
           </div>
 
-          {/* Center iPhone Mockup */}
           <div
-            className="relative w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out"
+            className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
             style={{
-              opacity: getSectionOpacity(2/9, 3/9),
-              transform: `scale(${scrollProgress >= 2/9 && scrollProgress < 3/9 ? 1 : 0.9})`
+              opacity: getSectionOpacity(2/8, 3/8),
+              transform: `scale(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 1 : 0.9})`
             }}
           >
-            <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl">
-              <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                <video
-                  src="/videos/video3.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
+            <video
+              src="/videos/video3.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover rounded-[28px]"
+              style={{ objectPosition: 'center 45%' }}
+            />
           </div>
 
-          {/* Right Text */}
           <div 
             className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out"
             style={{
-              opacity: getSectionOpacity(2/9, 3/9),
-              transform: `translateX(${scrollProgress >= 2/9 && scrollProgress < 3/9 ? 0 : 30}px) scale(${scrollProgress >= 2/9 && scrollProgress < 3/9 ? 1 : 0.95})`
+              opacity: getSectionOpacity(2/8, 3/8),
+              transform: `translateX(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 0 : 30}px) scale(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 1 : 0.95})`
             }}
           >
             <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-[1.4] max-w-xl mx-auto"
               style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
             >
-              Calendar<br />Health<br />Screentime
+              Connected to your<br />
+              <span className="font-semibold text-white">Calendar, Health, ScreenTime</span><br />
+              for optimal personalization.<br />
+              Your coach learns about you<br />
+              from every interaction.
             </h2>
             </div>
           </div>
@@ -459,274 +502,476 @@ const NewLanding = () => {
         {/* Section 4 - Unparalled Insights */}
         <div 
           className="absolute inset-0 flex items-center justify-center"
-          style={{ opacity: getSectionOpacity(3/9, 4/9), pointerEvents: scrollProgress >= 3/9 && scrollProgress < 4/9 ? 'auto' : 'none' }}
+          style={{ opacity: getSectionOpacity(3/8, 4/8), pointerEvents: scrollProgress >= 3/8 && scrollProgress < 4/8 ? 'auto' : 'none' }}
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-            {/* Left Text */}
             <div 
               className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out"
               style={{
-                opacity: getSectionOpacity(3/9, 4/9),
-                transform: `translateX(${scrollProgress >= 3/9 && scrollProgress < 4/9 ? 0 : -30}px) scale(${scrollProgress >= 3/9 && scrollProgress < 4/9 ? 1 : 0.95})`
+                opacity: getSectionOpacity(3/8, 4/8),
+                transform: `translateX(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 0 : -30}px) scale(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 1 : 0.95})`
               }}
             >
               <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                style={{ 
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
+                  fontWeight: 600
+                }}
+              >
+                Unparalleled<br />insights
+              </h2>
+            </div>
+
+            <div
+              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              style={{
+                opacity: getSectionOpacity(3/8, 4/8),
+                transform: `scale(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 1 : 0.9})`
+              }}
+            >
+              <video
+                src="/videos/video4.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center center' }}
+              />
+            </div>
+
+            <div 
+              className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out"
+              style={{
+                opacity: getSectionOpacity(3/8, 4/8),
+                transform: `translateX(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 0 : 30}px) scale(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 1 : 0.95})`
+              }}
+            >
+              <h2 
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-[1.5] max-w-lg mx-auto"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 400
                 }}
               >
-                Unparalled<br />Insights
+                Your coaches know when to consult<br />
+                with your other coaches and when<br />
+                to set reminders or events<br />
+                in the calendar.
               </h2>
             </div>
-
-            {/* Center iPhone Mockup */}
-            <div
-              className="relative w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out"
-              style={{
-                opacity: getSectionOpacity(3/9, 4/9),
-                transform: `scale(${scrollProgress >= 3/9 && scrollProgress < 4/9 ? 1 : 0.9})`
-              }}
-            >
-              <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl">
-                <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                  <video
-                    src="/videos/video4.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right spacer for balance */}
-            <div className="flex-1 md:order-3" />
           </div>
         </div>
 
-        {/* Section 5 - On demand Sessions */}
+        {/* Section 5 - Expert Curated Sessions */}
         <div 
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-          style={{ opacity: getSectionOpacity(4/9, 5/9), pointerEvents: scrollProgress >= 4/9 && scrollProgress < 5/9 ? 'auto' : 'none' }}
+          style={{ opacity: getSectionOpacity(4/8, 5/8), pointerEvents: scrollProgress >= 4/8 && scrollProgress < 5/8 ? 'auto' : 'none' }}
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-            {/* Left Text */}
-            <div 
-              className="flex-1 text-center transition-all duration-1000 ease-out"
-              style={{
-                opacity: getSectionOpacity(4/9, 5/9),
-                transform: `translateX(${scrollProgress >= 4/9 && scrollProgress < 5/9 ? 0 : -30}px) scale(${scrollProgress >= 4/9 && scrollProgress < 5/9 ? 1 : 0.95})`
-              }}
-            >
-              <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
-                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
-              >
-                On demand<br />Sessions
-              </h2>
-            </div>
-
-            {/* Center iPhone Mockup */}
-            <div 
-              className="relative w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px] transition-all duration-1000 ease-out"
-              style={{
-                opacity: getSectionOpacity(4/9, 5/9),
-                transform: `scale(${scrollProgress >= 4/9 && scrollProgress < 5/9 ? 1 : 0.9})`
-              }}
-            >
-              <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl">
-                <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                  <video
-                    src="/videos/video5.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Text */}
-            <div 
-              className="flex-1 text-center transition-all duration-1000 ease-out"
-              style={{
-                opacity: getSectionOpacity(4/9, 5/9),
-                transform: `translateX(${scrollProgress >= 4/9 && scrollProgress < 5/9 ? 0 : 30}px) scale(${scrollProgress >= 4/9 && scrollProgress < 5/9 ? 1 : 0.95})`
-              }}
-            >
-              <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
-                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
-              >
-                With<br />100+<br />Voices
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 6 - Curated Expert Sessions */}
-        <div 
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ opacity: getSectionOpacity(5/9, 6/9), pointerEvents: scrollProgress >= 5/9 && scrollProgress < 6/9 ? 'auto' : 'none' }}
-        >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-            {/* Left Text */}
             <div 
               className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out"
               style={{
-                opacity: getSectionOpacity(5/9, 6/9),
-                transform: `translateX(${scrollProgress >= 5/9 && scrollProgress < 6/9 ? 0 : -30}px) scale(${scrollProgress >= 5/9 && scrollProgress < 6/9 ? 1 : 0.95})`
+                opacity: getSectionOpacity(4/8, 5/8),
+                transform: `translateX(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 0 : -30}px) scale(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 1 : 0.95})`
               }}
             >
               <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                style={{ 
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
+                  fontWeight: 600
+                }}
+              >
+                Expert<br />Curated<br />Sessions
+              </h2>
+            </div>
+
+            <div
+              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              style={{
+                opacity: getSectionOpacity(4/8, 5/8),
+                transform: `scale(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 1 : 0.9})`
+              }}
+            >
+              <video
+                src="/videos/video5.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
+            </div>
+
+            <div 
+              className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out"
+              style={{
+                opacity: getSectionOpacity(4/8, 5/8),
+                transform: `translateX(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 0 : 30}px) scale(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 1 : 0.95})`
+              }}
+            >
+              <h2 
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-[1.5] max-w-lg mx-auto"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 400
                 }}
               >
-                Curated<br />Expert<br />Sessions
+                Licensed life coaches and therapists<br />
+                have built sessions based on their<br />
+                knowledge and styles that can<br />
+                completely adapt to your needs.
               </h2>
             </div>
-
-            {/* Center iPhone Mockup */}
-            <div
-              className="relative w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out"
-              style={{
-                opacity: getSectionOpacity(5/9, 6/9),
-                transform: `scale(${scrollProgress >= 5/9 && scrollProgress < 6/9 ? 1 : 0.9})`
-              }}
-            >
-              <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl">
-                <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                  <video
-                    src="/videos/video6.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right spacer for balance */}
-            <div className="flex-1 md:order-3" />
           </div>
         </div>
 
-        {/* Section 7 - So you can RISE */}
+        {/* Section 6 - So you can RISE */}
         <div 
           className="absolute inset-0 flex items-start justify-center pt-32"
-          style={{ opacity: getSectionOpacity(6/9, 7/9), pointerEvents: scrollProgress >= 6/9 && scrollProgress < 7/9 ? 'auto' : 'none' }}
+          style={{ opacity: getSectionOpacity(5/8, 6/8), pointerEvents: scrollProgress >= 5/8 && scrollProgress < 6/8 ? 'auto' : 'none' }}
         >
-          <div className="relative z-10 text-center px-4">
+          <div className="relative z-10 text-center px-4 w-full max-w-7xl mx-auto">
             <h2 
-              className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white leading-tight transition-all duration-1000 ease-out"
+              className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white leading-[1.1] transition-all duration-1000 ease-out"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 400,
-                opacity: getSectionOpacity(6/9, 7/9)
+                opacity: getSectionOpacity(5/8, 6/8)
               }}
             >
               So you can<br />
               <span 
                 className="font-black inline-block"
                 style={{
-                  opacity: scrollProgress >= 6/9 && scrollProgress < 7/9 
-                    ? gsap.utils.mapRange(6/9, 6.8/9, 0, 1, Math.min(scrollProgress, 6.8/9))
-                    : scrollProgress >= 7/9 ? 0 : 0,
-                  transform: scrollProgress >= 6/9 && scrollProgress < 7/9
-                    ? `translateY(${gsap.utils.mapRange(6/9, 6.8/9, 200, 0, Math.min(scrollProgress, 6.8/9))}px)`
-                    : scrollProgress >= 7/9 ? 'translateY(0px)' : 'translateY(200px)'
+                  opacity: scrollProgress >= 5/8 && scrollProgress < 6/8 
+                    ? gsap.utils.mapRange(5/8, 5.8/8, 0, 1, Math.min(scrollProgress, 5.8/8))
+                    : scrollProgress >= 6/8 ? 0 : 0,
+                  transform: scrollProgress >= 5/8 && scrollProgress < 6/8
+                    ? `translateY(${gsap.utils.mapRange(5/8, 5.8/8, 200, 0, Math.min(scrollProgress, 5.8/8))}px)`
+                    : scrollProgress >= 6/8 ? 'translateY(0px)' : 'translateY(200px)'
                 }}
               >
-                RISE
+                rise
               </span>
             </h2>
+
+            {/* Notification Images - Random iOS-style pop animations */}
+            {scrollProgress >= 5/8 && scrollProgress < 6/8 && (
+              <>
+                {/* Random notification 1 */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 2,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute top-4 left-[5%] w-72 md:w-80 lg:w-96 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={384}
+                    height={120}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+
+                {/* Random notification 2 */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 3,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute top-4 right-[5%] w-72 md:w-80 lg:w-96 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={384}
+                    height={120}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+
+                {/* Random notification 3 */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 4,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute bottom-8 left-[8%] w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={320}
+                    height={100}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+
+                {/* Random notification 4 */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 5,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute bottom-8 right-[8%] w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={320}
+                    height={100}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+
+                {/* Random notification 5 - middle left */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 3.5,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute top-1/2 left-[4%] -translate-y-1/2 w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={320}
+                    height={100}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+
+                {/* Random notification 6 - middle right */}
+                <motion.div
+                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 1, 0],
+                    y: [-100, -80, -75, -75, -60],
+                    scale: [0.3, 1.1, 1, 1, 0.9]
+                  }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.25, 0.75, 1],
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    delay: Math.random() * 4.5,
+                    ease: [0.34, 1.56, 0.64, 1]
+                  }}
+                  className="absolute top-1/2 right-[4%] -translate-y-1/2 w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  style={{ opacity: getSectionOpacity(5/8, 6/8) }}
+                >
+                  <Image
+                    src="/notif1.png"
+                    alt="Notification"
+                    width={320}
+                    height={100}
+                    className="drop-shadow-2xl"
+                  />
+                </motion.div>
+              </>
+            )}
           </div>
         </div>
 
-        {/* Section 8 - And find your purpose */}
+        {/* Section 7 - Reviews Section with Motion animations */}
         <div 
-          className="absolute inset-0 flex items-start justify-center pt-32"
-          style={{ opacity: getSectionOpacity(7/9, 8/9), pointerEvents: scrollProgress >= 7/9 && scrollProgress < 8/9 ? 'auto' : 'none' }}
+          className="absolute inset-0 flex items-center justify-center overflow-hidden"
+          style={{ 
+            opacity: getSectionOpacity(6/8, 7/8),
+            pointerEvents: scrollProgress >= 6/8 && scrollProgress < 7/8 ? 'auto' : 'none' 
+          }}
         >
-          <div 
-            className="relative z-10 text-center px-4 transition-all duration-1000 ease-out"
-            style={{
-              opacity: getSectionOpacity(7/9, 8/9),
-              transform: `translateY(${scrollProgress >= 7/9 && scrollProgress < 8/9 ? 0 : 40}px) scale(${scrollProgress >= 7/9 && scrollProgress < 8/9 ? 1 : 0.9})`
-            }}
-          >
-            <h2 
-              className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white leading-tight"
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
+            <motion.h2 
+              initial={{ opacity: 0, y: -30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white text-center mb-16 leading-[1.1]"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
-                fontWeight: 400
+                fontWeight: 600
               }}
             >
-              And find your purpose
-            </h2>
+              Trusted
+            </motion.h2>
+            
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.2 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {reviews.map((review, index) => (
+                <motion.div
+                  key={index}
+                  variants={reviewVariants}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    y: -8,
+                    transition: { type: "spring", stiffness: 300, damping: 20 }
+                  }}
+                  className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px'
+                  }}
+                >
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3 + index * 0.1 }}
+                    className="mb-3"
+                  >
+                    <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2"
+                       style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}>
+                      {review.category}
+                    </p>
+                    <div className="flex mb-3">
+                      {[...Array(review.rating)].map((_, i) => (
+                        <motion.svg 
+                          key={i}
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ 
+                            delay: 0.4 + index * 0.1 + i * 0.05,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                          className="w-4 h-4 text-yellow-400 fill-current" 
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                        </motion.svg>
+                      ))}
+                    </div>
+                  </motion.div>
+                  <p 
+                    className="text-white/90 text-sm md:text-base mb-4 leading-relaxed"
+                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+                  >
+                    "{review.text}"
+                  </p>
+                  <p 
+                    className="text-white/70 text-xs font-medium italic"
+                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+                  >
+                    — {review.name}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </div>
 
-        {/* Section 9 - Lock Animation + Download Button */}
+        {/* Section 8 - Completely Private */}
         <div 
           className="absolute inset-0 flex items-center justify-center"
           style={{ 
-            opacity: scrollProgress >= 8/9 ? 1 : 0,
-            pointerEvents: scrollProgress >= 8/9 ? 'auto' : 'none' 
+            opacity: scrollProgress >= 7/8 ? 1 : 0,
+            pointerEvents: scrollProgress >= 7/8 ? 'auto' : 'none' 
           }}
         >
-          {/* Mockup - centered on screen, stays visible */}
-          <div
-            className="absolute w-[240px] h-[490px] sm:w-[280px] sm:h-[570px] md:w-[320px] md:h-[650px] transition-all duration-1000 ease-out"
-            style={{
-              top: '50%',
-              left: '50%',
-              opacity: scrollProgress >= 8/9 ? gsap.utils.mapRange(8/9, 0.95, 0, 1, Math.min(scrollProgress, 0.95)) : 0,
-              transform: `translate(-50%, -50%) scale(${scrollProgress >= 8/9 ? gsap.utils.mapRange(8/9, 0.95, 0.95, 1, Math.min(scrollProgress, 0.95)) : 0.95})`
-            }}
-          >
-            <div className="absolute inset-0 bg-black rounded-[50px] border-[4px] border-gray-900 shadow-2xl">
-              <div className="absolute inset-[2px] rounded-[46px] overflow-hidden">
-                <video
-                  src="/videos/video9.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-              </div>
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div 
+              className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out"
+              style={{
+                opacity: scrollProgress >= 7/8 ? gsap.utils.mapRange(7/8, 0.95, 0, 1, Math.min(scrollProgress, 0.95)) : 0,
+                transform: `translateX(${scrollProgress >= 7/8 ? 0 : -30}px) scale(${scrollProgress >= 7/8 ? 1 : 0.95})`
+              }}
+            >
+              <h2 
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                style={{ 
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
+                  fontWeight: 600
+                }}
+              >
+                Completely<br />Private
+              </h2>
             </div>
-          </div>
 
-          {/* Download Button - appears at bottom, stays visible */}
-          <div 
-            className="absolute transition-all duration-1000 ease-out"
-            style={{
-              bottom: '1.5rem',
-              left: '50%',
-              opacity: scrollProgress >= 0.97 ? 1 : gsap.utils.mapRange(0.94, 0.97, 0, 1, Math.max(scrollProgress, 0.94)),
-              transform: `translateX(-50%) translateY(${scrollProgress >= 0.97 ? 0 : gsap.utils.mapRange(0.94, 0.97, 40, 0, scrollProgress)}px)`
-            }}
-          >
-            {/* App Store Button */}
-            <button className="bg-white/90 backdrop-blur-sm text-slate-900 px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold hover:bg-white hover:scale-105 transition-all duration-300 shadow-2xl flex items-center justify-center gap-1.5 text-xs md:text-sm group whitespace-nowrap">
-              <svg className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
-              </svg>
-              <span>Download on App Store</span>
-            </button>
+            <div
+              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              style={{
+                opacity: scrollProgress >= 7/8 ? gsap.utils.mapRange(7/8, 0.95, 0, 1, Math.min(scrollProgress, 0.95)) : 0,
+                transform: `scale(${scrollProgress >= 7/8 ? gsap.utils.mapRange(7/8, 0.95, 0.95, 1, Math.min(scrollProgress, 0.95)) : 0.95})`
+              }}
+            >
+              <video
+                src="/videos/video6.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
+            </div>
+
+            <div className="flex-1 md:order-3" />
           </div>
         </div>
       </div>

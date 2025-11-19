@@ -9,21 +9,24 @@ import helloAnimation from '../public/Hello.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Journey from ground to moon - in order backg1 → backg6
+// Journey from ground to moon - in order backg1 → backg9
 const backgrounds = [
   '/backgrounds/backg1.png',    // Ground level - earthy tones with tree
   '/backgrounds/backg2.png',    // Rising up - transitional
   '/backgrounds/backg3.png',    // Blue sky - daytime
   '/backgrounds/backg4.png',    // Midday - bright
-  '/backgrounds/backg5.jpg',    // Dusk - purple tones
-  '/backgrounds/backg6.png'     // Night sky - final destination
+  '/backgrounds/backg5.png',    // Dusk - purple tones
+  '/backgrounds/backg6.png',    // Night sky - final destination
+  '/backgrounds/backg7.png',    // Additional backgrounds
+  '/backgrounds/backg8.png',
+  '/backgrounds/backg9.png'
 ]
 
 // Text with emphasized words (will be highlighted with gradient)
 const textSequence = [
   { text: "Your personal network of ", highlight: "support" },
   { text: "AI coaches that ", highlight: "truly understand", rest: " you" },
-  { text: "Privacy ", highlight: "built into", rest: " every conversation" },
+  { text: "Connected to your Calendar, Health, ScreenTime for ", highlight: "optimal personalization", rest: " your coach learns about you from every interaction" },
   { text: "Coaches that ", highlight: "collaborate", rest: " for your growth" },
   { text: "The future of ", highlight: "personal development" }
 ]
@@ -487,7 +490,7 @@ export default function CinematicLanding() {
                 {[1, 2, 3, 4, 5].map((num, idx) => (
                   <div key={`first-${num}`} className="flex-shrink-0 snap-center">
                     <div 
-                      className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 transition-opacity duration-300"
+                      className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 transition-opacity duration-300"
                       style={{ 
                         opacity: idx === 0 ? 0.7 : 1 // First item slightly faded
                       }}
@@ -505,7 +508,7 @@ export default function CinematicLanding() {
                 {[1, 2, 3, 4, 5].map((num, idx) => (
                   <div key={`second-${num}`} className="flex-shrink-0 snap-center">
                     <div 
-                      className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 transition-opacity duration-300"
+                      className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 transition-opacity duration-300"
                       style={{ 
                         opacity: idx === 4 ? 0.7 : 1 // Last item slightly faded
                       }}
@@ -522,7 +525,7 @@ export default function CinematicLanding() {
                 {/* Third set for seamless loop */}
                 {[1, 2].map((num) => (
                   <div key={`third-${num}`} className="flex-shrink-0 snap-center">
-                    <div className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 opacity-70">
+                    <div className="w-64 h-[500px] relative rounded-3xl overflow-hidden shadow-2xl border-2 border-white/20 opacity-70">
                       <Image
                         src={`/mockups/mockup${num}.png`}
                         alt={`App Feature ${num}`}

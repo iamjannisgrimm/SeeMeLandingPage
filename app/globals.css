@@ -30,6 +30,9 @@ body {
   width: 100%;
   max-width: 100vw;
   position: relative;
+  /* Prevent zoom */
+  touch-action: pan-x pan-y;
+  -ms-touch-action: pan-x pan-y;
 }
 
 /* Hide default cursor on desktop for custom cursor */
@@ -52,6 +55,9 @@ html {
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
+  /* Prevent zoom */
+  touch-action: pan-x pan-y;
+  -ms-touch-action: pan-x pan-y;
 }
 
 /* Enhanced typography system */

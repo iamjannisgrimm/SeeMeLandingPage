@@ -28,6 +28,31 @@ export default function RootLayout({
                 history.scrollRestoration = 'manual';
               }
               window.scrollTo(0, 0);
+              
+              // Prevent zoom via keyboard shortcuts and gestures
+              document.addEventListener('gesturestart', function(e) {
+                e.preventDefault();
+              });
+              document.addEventListener('gesturechange', function(e) {
+                e.preventDefault();
+              });
+              document.addEventListener('gestureend', function(e) {
+                e.preventDefault();
+              });
+              
+              // Prevent Ctrl/Cmd + scroll zoom
+              document.addEventListener('wheel', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                  e.preventDefault();
+                }
+              }, { passive: false });
+              
+              // Prevent keyboard zoom shortcuts
+              document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
+                  e.preventDefault();
+                }
+              });
             `,
           }}
         />
