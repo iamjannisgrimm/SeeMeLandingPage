@@ -21,16 +21,17 @@ const FinalLanding = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8 py-8 md:py-12 gap-6 md:gap-8">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8 py-8 md:py-12 gap-8 md:gap-10">
         {/* Text Group */}
         <div className="flex flex-col items-center flex-shrink-0">
           {/* Title */}
           <h1 
-            className="font-black tracking-tight text-white mb-2 md:mb-3"
+            className="font-black tracking-tight text-white"
             style={{ 
               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
               fontWeight: 900,
-              fontSize: 'clamp(4rem, 12vw, 10rem)'
+              fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+              marginBottom: '0.5rem'
             }}
           >
             SeeMe
@@ -42,7 +43,7 @@ const FinalLanding = () => {
             style={{ 
               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
               fontWeight: 400,
-              fontSize: 'clamp(1rem, 2.5vw, 2rem)'
+              fontSize: 'clamp(0.875rem, 2vw, 1.5rem)'
             }}
           >
             Your private AI for clarity, balance, and deeply personalized growth
@@ -53,11 +54,12 @@ const FinalLanding = () => {
         <div
           className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
           style={{
-            width: '280px',
-            height: '615px',
-            minWidth: '280px',
-            minHeight: '615px',
-            maxHeight: 'calc(100vh - 300px)'
+            width: '240px',
+            height: '528px',
+            minWidth: '240px',
+            minHeight: '528px',
+            maxHeight: 'calc(100vh - 300px)',
+            marginTop: '1rem'
           }}
         >
           <video
