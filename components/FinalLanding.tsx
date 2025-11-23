@@ -403,10 +403,89 @@ const FinalLanding = () => {
     <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       {/* Loading indicator */}
       {!imagesLoaded && (
-        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
-          <div className="text-white text-center">
-            <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <div className="text-lg">Loading...</div>
+        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden">
+          {/* Animated background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 animate-pulse" />
+          
+          <div className="relative text-center">
+            {/* SeeMe logo animation */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="mb-8"
+            >
+              <h1
+                className="font-black tracking-tight text-white"
+                style={{
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                  fontWeight: 900,
+                  fontSize: 'clamp(3rem, 8vw, 6rem)',
+                }}
+              >
+                SeeMe
+              </h1>
+            </motion.div>
+
+            {/* Loading dots animation */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="flex justify-center gap-2 mb-6"
+            >
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-3 h-3 bg-white rounded-full"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.5, 1, 0.5],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </motion.div>
+
+            {/* Loading text with typewriter effect */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+            >
+              <p className="text-white/80 text-lg font-light">
+                Preparing your experience
+              </p>
+              <motion.p
+                className="text-white/60 text-sm mt-2"
+                initial={{ width: 0 }}
+                animate={{ width: "100%" }}
+                transition={{ delay: 1.2, duration: 2, ease: "easeOut" }}
+                style={{ overflow: "hidden", whiteSpace: "nowrap" }}
+              >
+                Crafting personalized insights just for you...
+              </motion.p>
+            </motion.div>
+
+            {/* Progress bar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.5 }}
+              className="mt-8 w-64 h-1 bg-white/20 rounded-full overflow-hidden mx-auto"
+            >
+              <motion.div
+                className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
+                initial={{ width: "0%" }}
+                animate={{ width: "90%" }}
+                transition={{ delay: 1.8, duration: 2.5, ease: "easeOut" }}
+              />
+            </motion.div>
           </div>
         </div>
       )}
@@ -825,205 +904,175 @@ const FinalLanding = () => {
                 </div>
               </div>
 
-              {/* Desktop: Scattered notifications */}
+              {/* Desktop: Better notification layout */}
               <div className="absolute inset-0 pointer-events-none hidden md:block">
-                {/* Random notification 1 - top left */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 2,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    top: 'clamp(2rem, 8vh, 4rem)',
-                    left: 'clamp(1rem, 6vw, 3rem)',
-                    width: 'clamp(10rem, 18vw, 16rem)',
-                    maxWidth: '280px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif1.png"
-                    alt="Notification"
-                    width={288}
-                    height={90}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                {/* Notification container - ensures all notifications stay within bounds */}
+                <div className="absolute inset-0 max-w-7xl mx-auto">
+                  {/* Top notifications row */}
+                  <div className="absolute top-4 left-0 right-0 flex justify-between px-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: -50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        y: [-50, 0, 0, -20],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 0,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif1.png"
+                        alt="Notification"
+                        width={280}
+                        height={85}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
 
-                {/* Random notification 2 - top right */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 3,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    top: 'clamp(2rem, 8vh, 4rem)',
-                    right: 'clamp(1rem, 6vw, 3rem)',
-                    width: 'clamp(10rem, 18vw, 16rem)',
-                    maxWidth: '280px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif2.png"
-                    alt="Notification"
-                    width={288}
-                    height={90}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: -50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        y: [-50, 0, 0, -20],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 2,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif2.png"
+                        alt="Notification"
+                        width={280}
+                        height={85}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
+                  </div>
 
-                {/* Random notification 3 - bottom left */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 4,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    bottom: 'clamp(3rem, 14vh, 8rem)',
-                    left: 'clamp(1rem, 6vw, 3rem)',
-                    width: 'clamp(10rem, 18vw, 16rem)',
-                    maxWidth: '280px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif3.png"
-                    alt="Notification"
-                    width={288}
-                    height={90}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                  {/* Middle notifications - positioned on sides */}
+                  <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-8">
+                    <motion.div
+                      initial={{ opacity: 0, x: -50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        x: [-50, 0, 0, -30],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 1,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif3.png"
+                        alt="Notification"
+                        width={240}
+                        height={70}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
 
-                {/* Random notification 4 - bottom right */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 5,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    bottom: 'clamp(3rem, 14vh, 8rem)',
-                    right: 'clamp(1rem, 6vw, 3rem)',
-                    width: 'clamp(10rem, 18vw, 16rem)',
-                    maxWidth: '280px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif4.png"
-                    alt="Notification"
-                    width={288}
-                    height={90}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, x: 50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        x: [50, 0, 0, 30],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 3,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif4.png"
+                        alt="Notification"
+                        width={240}
+                        height={70}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
+                  </div>
 
-                {/* Random notification 5 - middle left */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 3.5,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    top: 'clamp(30%, 35vh, 40%)',
-                    left: 'clamp(1rem, 5vw, 2.5rem)',
-                    width: 'clamp(9rem, 16vw, 14rem)',
-                    maxWidth: '240px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif5.png"
-                    alt="Notification"
-                    width={256}
-                    height={80}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                  {/* Bottom notifications row */}
+                  <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        y: [50, 0, 0, 20],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 1.5,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif5.png"
+                        alt="Notification"
+                        width={220}
+                        height={65}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
 
-                {/* Random notification 6 - middle right */}
-                <motion.div
-                  initial={{ opacity: 0, y: -100, scale: 0.3 }}
-                  animate={{
-                    opacity: [0, 1, 1, 1, 0],
-                    y: [-100, -80, -75, -75, -60],
-                    scale: [0.3, 1.1, 1, 1, 0.9]
-                  }}
-                  transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.25, 0.75, 1],
-                    repeat: Infinity,
-                    repeatDelay: 4,
-                    delay: Math.random() * 4.5,
-                    ease: [0.34, 1.56, 0.64, 1]
-                  }}
-                  className="absolute pointer-events-none z-20"
-                  style={{
-                    top: 'clamp(30%, 35vh, 40%)',
-                    right: 'clamp(1rem, 5vw, 2.5rem)',
-                    width: 'clamp(9rem, 16vw, 14rem)',
-                    maxWidth: '240px'
-                  }}
-                >
-                  <Image
-                    src="/notifications/notif6.png"
-                    alt="Notification"
-                    width={256}
-                    height={80}
-                    className="drop-shadow-2xl"
-                  />
-                </motion.div>
+                    <motion.div
+                      initial={{ opacity: 0, y: 50, scale: 0.8 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        y: [50, 0, 0, 20],
+                        scale: [0.8, 1, 1, 0.9]
+                      }}
+                      transition={{
+                        duration: 8,
+                        times: [0, 0.15, 0.75, 1],
+                        repeat: Infinity,
+                        repeatDelay: 4,
+                        delay: 2.5,
+                        ease: [0.34, 1.56, 0.64, 1]
+                      }}
+                      className="pointer-events-none z-20"
+                    >
+                      <Image
+                        src="/notifications/notif6.png"
+                        alt="Notification"
+                        width={220}
+                        height={65}
+                        className="drop-shadow-lg"
+                      />
+                    </motion.div>
+                  </div>
+                </div>
               </div>
             </>
           )}
@@ -1032,7 +1081,7 @@ const FinalLanding = () => {
         {/* Section 7 - Reviews Section with Motion animations */}
         <div
           ref={section7Ref}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden"
+          className="absolute inset-0 flex items-center justify-center"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
@@ -1145,8 +1194,8 @@ const FinalLanding = () => {
             </div>
 
             {/* Mobile: Horizontal scrollable carousel */}
-            <div className="md:hidden overflow-x-auto scrollbar-hide -mx-4 px-4">
-              <div className="flex gap-4 pb-4">
+            <div className="md:hidden overflow-x-scroll scrollbar-hide">
+              <div className="flex gap-4 pb-4 px-4">
                 {reviews.map((review, index) => (
                   <motion.div
                     key={`mobile-${index}`}
@@ -1163,7 +1212,9 @@ const FinalLanding = () => {
                       duration: 0.6,
                       ease: "easeOut"
                     }}
-                    className="bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl flex-shrink-0 w-[85vw] max-w-[340px]"
+                    className={`bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl flex-shrink-0 w-[85vw] max-w-[340px] ${
+                      index === reviews.length - 1 ? 'mr-4' : ''
+                    }`}
                   >
                     <div className="mb-3">
                       <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2"
