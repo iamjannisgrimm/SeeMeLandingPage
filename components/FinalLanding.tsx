@@ -21,7 +21,7 @@ const FinalLanding = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8 py-8 md:py-12 gap-8 md:gap-10">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8" style={{ gap: 'clamp(1.5rem, 3vh, 3rem)' }}>
         {/* Text Group */}
         <div className="flex flex-col items-center flex-shrink-0">
           {/* Title */}
@@ -31,7 +31,7 @@ const FinalLanding = () => {
               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
               fontWeight: 900,
               fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-              marginBottom: '0.5rem'
+              marginBottom: 'clamp(0.25rem, 0.5vh, 0.75rem)'
             }}
           >
             SeeMe
@@ -54,12 +54,10 @@ const FinalLanding = () => {
         <div
           className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
           style={{
-            width: '240px',
-            height: '528px',
-            minWidth: '240px',
-            minHeight: '528px',
-            maxHeight: 'calc(100vh - 300px)',
-            marginTop: '1rem'
+            width: 'clamp(200px, 25vw, 280px)',
+            height: 'clamp(440px, 55vh, 615px)',
+            aspectRatio: '280 / 615',
+            marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
           }}
         >
           <video
