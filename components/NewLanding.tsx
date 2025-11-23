@@ -287,13 +287,13 @@ const NewLanding = () => {
           }}
         >
           <div 
-            className="relative z-10 flex flex-col items-center justify-center text-center px-4 -mt-8 md:mt-0 md:mb-16 transition-transform duration-500 ease-out"
+            className="relative z-10 flex flex-col items-center justify-center text-center px-4 mt-8 md:mt-0 md:mb-16 transition-transform duration-500 ease-out"
             style={{ 
               transform: scrollProgress < 0.08 ? 'translateY(0)' : `translateY(${-gsap.utils.mapRange(0.08, 1/8, 0, 30, scrollProgress)}px)`
             }}
           >
             <h1 
-              className="text-[90px] sm:text-[100px] md:text-[140px] lg:text-[160px] font-black tracking-tight text-white mb-2 md:mb-4 transition-all duration-700 ease-out flex items-center justify-center gap-1"
+              className="text-[90px] sm:text-[100px] md:text-[140px] lg:text-[160px] font-black tracking-tight text-white mb-3 md:mb-4 transition-all duration-700 ease-out flex items-center justify-center gap-1"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 900,
@@ -322,14 +322,14 @@ const NewLanding = () => {
               </span>
             </h1>
             <p 
-              className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 mb-8 md:mb-8 transition-opacity duration-700 ease-out"
+              className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 mb-16 md:mb-20 transition-opacity duration-700 ease-out"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 400,
                 opacity: scrollProgress <= 1/8 ? (scrollProgress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1/8, 0, 1, scrollProgress)) : 0
               }}
             >
-              My Personal Intelligence Platform
+              Your private AI for clarity, balance, and deeply personalized growth.
             </p>
             
             <div
