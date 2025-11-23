@@ -49,7 +49,13 @@ const FinalLanding = () => {
 
         {/* Video Mockup Container - stays centered */}
         <div
-          className="relative w-[280px] h-[615px] rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden mb-auto"
+          className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden mb-auto"
+          style={{
+            width: '280px',
+            height: '615px',
+            minWidth: '280px',
+            minHeight: '615px'
+          }}
         >
           <video
             src="/videos/video1.mp4"
@@ -57,8 +63,13 @@ const FinalLanding = () => {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover rounded-[28px]"
-            style={{ objectPosition: 'center 45%' }}
+            className="rounded-[28px]"
+            style={{ 
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 45%'
+            }}
           />
         </div>
       </div>
