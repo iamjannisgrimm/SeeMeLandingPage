@@ -1,5 +1,5 @@
-import NewLanding from '@/components/NewLanding'
+import FinalLanding from '@/components/FinalLanding'
 
 export default function Home() {
-  return <NewLanding />
+  return <FinalLanding />
 }

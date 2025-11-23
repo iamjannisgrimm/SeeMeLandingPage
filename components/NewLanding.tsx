@@ -287,13 +287,13 @@ const NewLanding = () => {
           }}
         >
           <div 
-            className="relative z-10 flex flex-col items-center justify-center text-center px-4 mt-8 md:mt-0 md:mb-16 transition-transform duration-500 ease-out"
+            className="relative z-10 flex flex-col items-center justify-center text-center px-4 mt-0 md:mt-0 md:mb-16 transition-transform duration-500 ease-out"
             style={{ 
               transform: scrollProgress < 0.08 ? 'translateY(0)' : `translateY(${-gsap.utils.mapRange(0.08, 1/8, 0, 30, scrollProgress)}px)`
             }}
           >
             <h1 
-              className="text-[90px] sm:text-[100px] md:text-[140px] lg:text-[160px] font-black tracking-tight text-white mb-3 md:mb-4 transition-all duration-700 ease-out flex items-center justify-center gap-1"
+              className="text-[100px] font-black tracking-tight text-white mb-3 transition-all duration-700 ease-out flex items-center justify-center gap-1"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 900,
@@ -322,7 +322,7 @@ const NewLanding = () => {
               </span>
             </h1>
             <p 
-              className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 mb-16 md:mb-20 transition-opacity duration-700 ease-out"
+              className="text-2xl text-white/90 mb-12 transition-opacity duration-700 ease-out"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 400,
@@ -333,7 +333,7 @@ const NewLanding = () => {
             </p>
             
             <div
-              className="relative w-[280px] h-[615px] sm:w-[200px] sm:h-[450px] md:w-[240px] md:h-[530px] transition-all duration-1000 ease-out rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              className="relative w-[280px] h-[615px] transition-all duration-1000 ease-out rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
               style={{
                 opacity: scrollProgress < 0.14 ? 1 : gsap.utils.mapRange(0.14, 0.18, 1, 0, Math.min(scrollProgress, 0.18)),
                 transform: scrollProgress < 0.08 
@@ -370,7 +370,7 @@ const NewLanding = () => {
             }}
           >
             <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+              className="text-5xl text-white leading-[1.1]"
               style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}
             >
               My custom<br />network of<br />coaches
@@ -378,7 +378,7 @@ const NewLanding = () => {
           </div>
 
           <div className="flex-1 flex items-center justify-center relative">
-            <div className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden">
+            <div className="relative w-[280px] h-[615px] rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden">
               <video
                 src="/videos/video2.mp4"
                 autoPlay
@@ -453,7 +453,7 @@ const NewLanding = () => {
             }}
           >
             <h2 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+              className="text-5xl text-white leading-[1.1]"
               style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 600 }}
             >
               Coaches<br />that really<br />know me
@@ -461,7 +461,7 @@ const NewLanding = () => {
           </div>
 
           <div
-            className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+            className="relative w-[280px] h-[615px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
             style={{
               opacity: getSectionOpacity(2/8, 3/8),
               transform: `scale(${scrollProgress >= 2/8 && scrollProgress < 3/8 ? 1 : 0.9})`
@@ -486,7 +486,7 @@ const NewLanding = () => {
             }}
           >
             <h2 
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white leading-[1.4] max-w-xl mx-auto"
+              className="text-2xl text-white leading-[1.4] max-w-xl mx-auto"
               style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', fontWeight: 400 }}
             >
               Connected to your<br />
@@ -513,7 +513,7 @@ const NewLanding = () => {
               }}
             >
               <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                className="text-5xl text-white leading-[1.1]"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 600
@@ -524,7 +524,7 @@ const NewLanding = () => {
             </div>
 
             <div
-              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              className="relative w-[280px] h-[615px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
               style={{
                 opacity: getSectionOpacity(3/8, 4/8),
                 transform: `scale(${scrollProgress >= 3/8 && scrollProgress < 4/8 ? 1 : 0.9})`
@@ -549,7 +549,7 @@ const NewLanding = () => {
               }}
             >
               <h2 
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-[1.5] max-w-lg mx-auto"
+                className="text-xl text-white leading-[1.5] max-w-lg mx-auto"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 400
@@ -578,7 +578,7 @@ const NewLanding = () => {
               }}
             >
               <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                className="text-5xl text-white leading-[1.1]"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 600
@@ -589,7 +589,7 @@ const NewLanding = () => {
             </div>
 
             <div
-              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              className="relative w-[280px] h-[615px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
               style={{
                 opacity: getSectionOpacity(4/8, 5/8),
                 transform: `scale(${scrollProgress >= 4/8 && scrollProgress < 5/8 ? 1 : 0.9})`
@@ -614,7 +614,7 @@ const NewLanding = () => {
               }}
             >
               <h2 
-                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white leading-[1.5] max-w-lg mx-auto"
+                className="text-xl text-white leading-[1.5] max-w-lg mx-auto"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 400
@@ -636,7 +636,7 @@ const NewLanding = () => {
         >
           <div className="relative z-10 text-center px-4 w-full max-w-7xl mx-auto">
             <h2 
-              className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white leading-[1.1] transition-all duration-1000 ease-out"
+              className="text-7xl text-white leading-[1.1] transition-all duration-1000 ease-out"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 400,
@@ -850,7 +850,7 @@ const NewLanding = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white text-center mb-16 leading-[1.1]"
+              className="text-5xl text-white text-center mb-16 leading-[1.1]"
               style={{ 
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                 fontWeight: 600
@@ -911,7 +911,7 @@ const NewLanding = () => {
                     </div>
                   </motion.div>
                   <p 
-                    className="text-white/90 text-sm md:text-base mb-4 leading-relaxed"
+                    className="text-white/90 text-base mb-4 leading-relaxed"
                     style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
                   >
                     "{review.text}"
@@ -945,7 +945,7 @@ const NewLanding = () => {
               }}
             >
               <h2 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-white leading-[1.1]"
+                className="text-5xl text-white leading-[1.1]"
                 style={{ 
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
                   fontWeight: 600
@@ -956,7 +956,7 @@ const NewLanding = () => {
             </div>
 
             <div
-              className="relative w-[220px] h-[490px] sm:w-[260px] sm:h-[570px] md:w-[300px] md:h-[650px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
+              className="relative w-[280px] h-[615px] md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden"
               style={{
                 opacity: scrollProgress >= 7/8 ? gsap.utils.mapRange(7/8, 0.95, 0, 1, Math.min(scrollProgress, 0.95)) : 0,
                 transform: `scale(${scrollProgress >= 7/8 ? gsap.utils.mapRange(7/8, 0.95, 0.95, 1, Math.min(scrollProgress, 0.95)) : 0.95})`
