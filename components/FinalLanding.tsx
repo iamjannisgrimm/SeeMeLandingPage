@@ -54,9 +54,9 @@ const FinalLanding = () => {
         <div
           className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
           style={{
-            width: 'clamp(200px, 25vw, 280px)',
-            height: 'clamp(440px, 55vh, 615px)',
-            aspectRatio: '280 / 615',
+            width: '240px',
+            height: '528px',
+            aspectRatio: '240 / 528',
             marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
           }}
         >
