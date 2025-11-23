@@ -21,15 +21,16 @@ const FinalLanding = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 flex flex-col items-center h-full px-4 md:px-8 pt-16 md:pt-20">
-        {/* Text Group - positioned to balance space */}
-        <div className="flex flex-col items-center mb-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8 py-8 md:py-12 gap-6 md:gap-8">
+        {/* Text Group */}
+        <div className="flex flex-col items-center flex-shrink-0">
           {/* Title */}
           <h1 
-            className="text-8xl sm:text-9xl md:text-[140px] lg:text-[180px] xl:text-[200px] font-black tracking-tight text-white mb-2 md:mb-3"
+            className="font-black tracking-tight text-white mb-2 md:mb-3"
             style={{ 
               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
-              fontWeight: 900
+              fontWeight: 900,
+              fontSize: 'clamp(4rem, 12vw, 10rem)'
             }}
           >
             SeeMe
@@ -37,24 +38,26 @@ const FinalLanding = () => {
 
           {/* Subtitle */}
           <p 
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/90 text-center px-4 whitespace-nowrap"
+            className="text-white/90 text-center px-4 whitespace-nowrap"
             style={{ 
               fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif', 
-              fontWeight: 400
+              fontWeight: 400,
+              fontSize: 'clamp(1rem, 2.5vw, 2rem)'
             }}
           >
             Your private AI for clarity, balance, and deeply personalized growth
           </p>
         </div>
 
-        {/* Video Mockup Container - stays centered */}
+        {/* Video Mockup Container */}
         <div
-          className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden mb-auto"
+          className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
           style={{
             width: '280px',
             height: '615px',
             minWidth: '280px',
-            minHeight: '615px'
+            minHeight: '615px',
+            maxHeight: 'calc(100vh - 300px)'
           }}
         >
           <video
