@@ -80,7 +80,13 @@ const FinalLanding = () => {
         trigger: containerRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 3,
+        scrub: 1.5, // Reduced scrub for tighter control with snapping
+        snap: {
+          snapTo: [0, 0.1875, 0.3125, 0.4375, 0.5625, 0.6875, 0.8125, 1], // Exact centers: 1.5/8, 2.5/8 etc
+          duration: { min: 0.3, max: 1.0 }, // Slower snap duration
+          delay: 0.1, // Wait a bit before snapping
+          ease: "power2.inOut" // Smooth easing
+        },
         onUpdate: (self) => {
           const progress = self.progress;
 
@@ -366,7 +372,7 @@ const FinalLanding = () => {
   ];
 
   return (
-    <div ref={containerRef} className="h-[1200vh] w-screen max-w-full relative overflow-x-hidden">
+    <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       {/* Loading indicator */}
       {!imagesLoaded && (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
