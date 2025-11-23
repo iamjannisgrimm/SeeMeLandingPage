@@ -658,11 +658,13 @@ const NewLanding = () => {
                 rise
               </span>
             </h2>
+          </div>
 
-            {/* Notification Images - Random iOS-style pop animations */}
-            {scrollProgress >= 5/8 && scrollProgress < 6/8 && (
+          {/* Notification Images - Random iOS-style pop animations - positioned relative to viewport */}
+          {scrollProgress >= 5/8 && scrollProgress < 6/8 && (
+            <div className="absolute inset-0 pointer-events-none">{/* Wrapper for full viewport positioning */}
               <>
-                {/* Random notification 1 */}
+                {/* Random notification 1 - top left */}
                 <motion.div
                   initial={{ opacity: 0, y: -100, scale: 0.3 }}
                   animate={{ 
@@ -678,19 +680,19 @@ const NewLanding = () => {
                     delay: Math.random() * 2,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute top-4 left-[5%] w-72 md:w-80 lg:w-96 pointer-events-none z-20"
+                  className="absolute top-8 left-[2%] w-56 md:w-64 lg:w-72 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif1.png"
                     alt="Notification"
-                    width={384}
-                    height={120}
+                    width={288}
+                    height={90}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
 
-                {/* Random notification 2 */}
+                {/* Random notification 2 - top right */}
                 <motion.div
                   initial={{ opacity: 0, y: -100, scale: 0.3 }}
                   animate={{ 
@@ -706,19 +708,19 @@ const NewLanding = () => {
                     delay: Math.random() * 3,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute top-4 right-[5%] w-72 md:w-80 lg:w-96 pointer-events-none z-20"
+                  className="absolute top-8 right-[2%] w-56 md:w-64 lg:w-72 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif2.png"
                     alt="Notification"
-                    width={384}
-                    height={120}
+                    width={288}
+                    height={90}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
 
-                {/* Random notification 3 */}
+                {/* Random notification 3 - bottom left */}
                 <motion.div
                   initial={{ opacity: 0, y: -100, scale: 0.3 }}
                   animate={{ 
@@ -734,19 +736,19 @@ const NewLanding = () => {
                     delay: Math.random() * 4,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute bottom-8 left-[8%] w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  className="absolute bottom-16 left-[2%] w-56 md:w-64 lg:w-72 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif3.png"
                     alt="Notification"
-                    width={320}
-                    height={100}
+                    width={288}
+                    height={90}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
 
-                {/* Random notification 4 */}
+                {/* Random notification 4 - bottom right */}
                 <motion.div
                   initial={{ opacity: 0, y: -100, scale: 0.3 }}
                   animate={{ 
@@ -762,14 +764,14 @@ const NewLanding = () => {
                     delay: Math.random() * 5,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute bottom-8 right-[8%] w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  className="absolute bottom-16 right-[2%] w-56 md:w-64 lg:w-72 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif4.png"
                     alt="Notification"
-                    width={320}
-                    height={100}
+                    width={288}
+                    height={90}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
@@ -790,14 +792,14 @@ const NewLanding = () => {
                     delay: Math.random() * 3.5,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute top-1/2 left-[4%] -translate-y-1/2 w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  className="absolute top-[35%] left-[1%] w-52 md:w-60 lg:w-64 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif5.png"
                     alt="Notification"
-                    width={320}
-                    height={100}
+                    width={256}
+                    height={80}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
@@ -818,20 +820,20 @@ const NewLanding = () => {
                     delay: Math.random() * 4.5,
                     ease: [0.34, 1.56, 0.64, 1]
                   }}
-                  className="absolute top-1/2 right-[4%] -translate-y-1/2 w-64 md:w-72 lg:w-80 pointer-events-none z-20"
+                  className="absolute top-[35%] right-[1%] w-52 md:w-60 lg:w-64 pointer-events-none z-20"
                   style={{ opacity: getSectionOpacity(5/8, 6/8) }}
                 >
                   <Image
-                    src="/notif1.png"
+                    src="/notifications/notif6.png"
                     alt="Notification"
-                    width={320}
-                    height={100}
+                    width={256}
+                    height={80}
                     className="drop-shadow-2xl"
                   />
                 </motion.div>
               </>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Section 7 - Reviews Section with Motion animations */}
