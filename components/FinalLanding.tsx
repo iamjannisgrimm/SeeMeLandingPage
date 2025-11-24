@@ -1264,8 +1264,13 @@ const FinalLanding = () => {
 
               <div className="flex-shrink-0">
                 <div
-                  className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
-                  style={{ transform: 'scale(0.9)' }}
+                  className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
+                  style={{
+                    width: '240px',
+                    height: '528px',
+                    aspectRatio: '240 / 528',
+                    marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
+                  }}
                 >
                   <video
                     src={videoUrls.video6}
@@ -1273,8 +1278,13 @@ const FinalLanding = () => {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover rounded-[28px]"
-                    style={{ objectPosition: 'center 45%' }}
+                    className="rounded-[28px]"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center 45%'
+                    }}
                   />
                 </div>
               </div>
