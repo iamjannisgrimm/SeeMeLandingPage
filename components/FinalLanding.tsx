@@ -626,20 +626,20 @@ const FinalLanding = () => {
               </h2>
             </div>
 
-            <div
-              className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
-              style={{ transform: 'scale(0.9)' }}
-            >
-              <LazyVideo
-                src={videoUrls.video3}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover rounded-[28px]"
-                style={{ objectPosition: 'center 45%' }}
-              />
-            </div>
+  <div
+    className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
+    style={{ transform: 'scale(0.9)' }}
+  >
+    <video
+      src={videoUrls.video3}
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover rounded-[28px]"
+      style={{ objectPosition: 'center 45%' }}
+    />
+  </div>
 
             <div
               className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out right-col drop-shadow-lg"
@@ -684,7 +684,7 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <LazyVideo
+              <video
                 src={videoUrls.video4}
                 autoPlay
                 loop
@@ -738,7 +738,7 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <LazyVideo
+              <video
                 src={videoUrls.video5}
                 autoPlay
                 loop
@@ -1196,7 +1196,7 @@ const FinalLanding = () => {
                 className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
                 style={{ transform: 'scale(0.9)' }}
               >
-                <LazyVideo
+                <video
                   src={videoUrls.video6}
                   autoPlay
                   loop
