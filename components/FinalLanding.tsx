@@ -97,18 +97,18 @@ const FinalLanding = () => {
           snapTo: (progress) => {
             // Get current scroll velocity
             const velocity = Math.abs(ScrollTrigger.getById('main-scroll')?.getVelocity() || 0);
-            
+
             // If scrolling fast, don't snap - let user fly through
             if (velocity > 200) {
               return progress; // Return current progress, no snapping
             }
-            
+
             // If scrolling slowly or stopped, snap to nearest section
             const snapPoints = [0, 0.1875, 0.3125, 0.4375, 0.5625, 0.6875, 0.8125, 1];
-            const closest = snapPoints.reduce((prev, curr) => 
+            const closest = snapPoints.reduce((prev, curr) =>
               Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev
             );
-            
+
             // Only snap if we're reasonably close to a section
             const distance = Math.abs(closest - progress);
             return distance < 0.15 ? closest : progress;
@@ -402,93 +402,100 @@ const FinalLanding = () => {
   return (
     <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       {/* Loading indicator */}
-      {!imagesLoaded && (
-        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden">
-          {/* Animated background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 animate-pulse" />
-          
-          <div className="relative text-center">
-            {/* SeeMe logo animation */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="mb-8"
-            >
-              <h1
-                className="font-black tracking-tight text-white"
-                style={{
-                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                  fontWeight: 900,
-                  fontSize: 'clamp(3rem, 8vw, 6rem)',
-                }}
-              >
-                SeeMe
-              </h1>
-            </motion.div>
+      <AnimatePresence>
+        {!imagesLoaded && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden"
+          >
+            {/* Animated background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 animate-pulse" />
 
-            {/* Loading dots animation */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="flex justify-center gap-2 mb-6"
-            >
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-3 h-3 bg-white rounded-full"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    delay: i * 0.2,
-                    ease: "easeInOut"
-                  }}
-                />
-              ))}
-            </motion.div>
-
-            {/* Loading text with typewriter effect */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-            >
-              <p className="text-white/80 text-lg font-light">
-                Preparing your experience
-              </p>
-              <motion.p
-                className="text-white/60 text-sm mt-2"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 1.2, duration: 2, ease: "easeOut" }}
-                style={{ overflow: "hidden", whiteSpace: "nowrap" }}
-              >
-                Crafting personalized insights just for you...
-              </motion.p>
-            </motion.div>
-
-            {/* Progress bar */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
-              className="mt-8 w-64 h-1 bg-white/20 rounded-full overflow-hidden mx-auto"
-            >
+            <div className="relative text-center px-4">
+              {/* SeeMe logo animation */}
               <motion.div
-                className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
-                initial={{ width: "0%" }}
-                animate={{ width: "90%" }}
-                transition={{ delay: 1.8, duration: 2.5, ease: "easeOut" }}
-              />
-            </motion.div>
-          </div>
-        </div>
-      )}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="mb-8"
+              >
+                <h1
+                  className="font-black tracking-tight text-white"
+                  style={{
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                    fontWeight: 900,
+                    fontSize: 'clamp(3rem, 8vw, 6rem)',
+                  }}
+                >
+                  SeeMe
+                </h1>
+              </motion.div>
+
+              {/* Loading dots animation */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="flex justify-center gap-2 mb-6"
+              >
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    className="w-3 h-3 bg-white rounded-full"
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.5, 1, 0.5],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                      ease: "easeInOut"
+                    }}
+                  />
+                ))}
+              </motion.div>
+
+              {/* Loading text */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="max-w-md mx-auto"
+              >
+                <p className="text-white/80 text-lg font-light mb-2">
+                  Preparing your experience
+                </p>
+                <motion.p
+                  className="text-white/60 text-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 0.8 }}
+                >
+                  Crafting personalized insights just for you...
+                </motion.p>
+              </motion.div>
+
+              {/* Progress bar */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 0.5 }}
+                className="mt-8 w-64 max-w-full h-1 bg-white/20 rounded-full overflow-hidden mx-auto"
+              >
+                <motion.div
+                  className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ delay: 1.8, duration: 3, ease: "easeOut" }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
@@ -884,7 +891,7 @@ const FinalLanding = () => {
                           initial="exit"
                           animate="enter"
                           exit="exit"
-                          transition={{ 
+                          transition={{
                             duration: 0.3, // Quick for both enter and exit
                             ease: "easeOut"
                           }}
@@ -1212,9 +1219,8 @@ const FinalLanding = () => {
                       duration: 0.6,
                       ease: "easeOut"
                     }}
-                    className={`bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl flex-shrink-0 w-[85vw] max-w-[340px] ${
-                      index === reviews.length - 1 ? 'mr-4' : ''
-                    }`}
+                    className={`bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl flex-shrink-0 w-[85vw] max-w-[340px] ${index === reviews.length - 1 ? 'mr-4' : ''
+                      }`}
                   >
                     <div className="mb-3">
                       <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2"
@@ -1288,7 +1294,7 @@ const FinalLanding = () => {
             <div className="flex flex-col items-center gap-8 md:order-2">
               <div
                 className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
-                style={{ transform: 'scale(0.95)' }}
+                style={{ transform: 'scale(0.9)' }}
               >
                 <video
                   src="/videos/video6.mp4"
