@@ -22,6 +22,12 @@ const backgrounds = [
 ];
 
 const FinalLanding = () => {
+  const safeAreaOffsets: React.CSSProperties = {
+    top: 'calc(env(safe-area-inset-top, 0px) * -1)',
+    bottom: 'calc(env(safe-area-inset-bottom, 0px) * -1)',
+    left: 'calc(env(safe-area-inset-left, 0px) * -1)',
+    right: 'calc(env(safe-area-inset-right, 0px) * -1)',
+  };
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
@@ -416,7 +422,10 @@ const FinalLanding = () => {
     <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       
       {/* Fixed viewport container */}
-     <div className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden">
+     <div
+        className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden"
+        style={safeAreaOffsets}
+      >
 
         {/* Dynamic Backgrounds */}
         <div ref={backgroundRef} className="absolute inset-0 z-0 w-full h-full">
