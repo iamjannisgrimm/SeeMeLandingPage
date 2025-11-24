@@ -53,23 +53,41 @@ const FinalLanding = () => {
 
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
+    let imagesReady = false;
+    let minTimeElapsed = false;
+
+    // Minimum display time of 2 seconds
+    const minDisplayTime = setTimeout(() => {
+      minTimeElapsed = true;
+      if (imagesReady) {
+        setImagesLoaded(true);
+      }
+    }, 2000);
 
     imagesToPreload.forEach((src) => {
       const img = new window.Image();
       img.onload = () => {
         loadedCount++;
         if (loadedCount === totalImages) {
-          setImagesLoaded(true);
+          imagesReady = true;
+          if (minTimeElapsed) {
+            setImagesLoaded(true);
+          }
         }
       };
       img.onerror = () => {
         loadedCount++;
         if (loadedCount === totalImages) {
-          setImagesLoaded(true);
+          imagesReady = true;
+          if (minTimeElapsed) {
+            setImagesLoaded(true);
+          }
         }
       };
       img.src = src;
     });
+
+    return () => clearTimeout(minDisplayTime);
   }, []);
 
   // Cycle through notification groups when in section 5
@@ -1266,7 +1284,7 @@ const FinalLanding = () => {
         >
           <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
             <div
-              className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out left-col drop-shadow-lg"
+              className="flex-1 text-center md:text-left md:order-1 order-2 transition-all duration-1000 ease-out left-col drop-shadow-lg"
               style={{ transform: 'translateX(-30px) scale(0.95)' }}
             >
               <h2
@@ -1282,7 +1300,7 @@ const FinalLanding = () => {
                 </span>
               </h2>
               <p
-                className="text-white/90 text-xl max-w-2xl mx-auto mt-6 font-normal"
+                className="text-white/90 text-xl max-w-2xl mx-auto md:mx-0 mt-6 font-normal"
                 style={{
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 }}
@@ -1291,7 +1309,7 @@ const FinalLanding = () => {
               </p>
             </div>
 
-            <div className="flex flex-col items-center gap-8 md:order-2">
+            <div className="flex flex-col items-center gap-8 md:order-2 order-1">
               <div
                 className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
                 style={{ transform: 'scale(0.9)' }}
