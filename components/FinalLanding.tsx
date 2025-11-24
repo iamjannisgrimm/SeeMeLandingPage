@@ -420,7 +420,7 @@ const FinalLanding = () => {
   ];
 
   return (
-    <div ref={containerRef} className="fullscreen-container h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
+    <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
@@ -1165,7 +1165,7 @@ const FinalLanding = () => {
                       </div>
                     </div>
                     <p
-                      className="text-white/90 text-sm mb-3 leading-relaxed"
+                      className="text-white/90 text-base mb-4 leading-relaxed"
                       style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
                     >
                       "{review.text}"
@@ -1193,8 +1193,13 @@ const FinalLanding = () => {
             {/* Mobile layout */}
             <div className="flex flex-col items-center gap-8 md:hidden">
               <div
-                className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
-                style={{ transform: 'scale(0.9)' }}
+                className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
+                style={{
+                  width: '240px',
+                  height: '528px',
+                  aspectRatio: '240 / 528',
+                  marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
+                }}
               >
                 <video
                   src={videoUrls.video6}
@@ -1202,11 +1207,16 @@ const FinalLanding = () => {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover rounded-[28px]"
-                  style={{ objectPosition: 'center 45%' }}
+                  className="rounded-[28px]"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center 45%'
+                  }}
                 />
               </div>
-              
+
               <div
                 className="text-center transition-all duration-1000 ease-out drop-shadow-lg"
                 style={{ transform: 'translateY(-30px) scale(0.95)' }}
@@ -1224,7 +1234,7 @@ const FinalLanding = () => {
                   </span>
                 </h2>
                 <p
-                  className="text-white/90 text-xl max-w-2xl mx-auto mt-6 font-normal"
+                  className="text-white/90 text-xl max-w-2xl mt-6 font-normal"
                   style={{
                     fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                   }}
