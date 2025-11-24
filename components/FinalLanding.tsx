@@ -6,6 +6,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import LazyVideo from './LazyVideo';
+import { videoUrls } from '../config/videoUrls';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -420,102 +421,7 @@ const FinalLanding = () => {
 
   return (
     <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
-      {/* Loading indicator */}
-      <AnimatePresence>
-        {!imagesLoaded && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="fixed inset-0 z-50 bg-black flex items-center justify-center overflow-hidden"
-          >
-            {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20 animate-pulse" />
-
-            <div className="relative text-center px-4">
-              {/* SeeMe logo animation */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="mb-8"
-              >
-                <h1
-                  className="font-black tracking-tight text-white"
-                  style={{
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                    fontWeight: 900,
-                    fontSize: 'clamp(3rem, 8vw, 6rem)',
-                  }}
-                >
-                  SeeMe
-                </h1>
-              </motion.div>
-
-              {/* Loading dots animation */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="flex justify-center gap-2 mb-6"
-              >
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-3 h-3 bg-white rounded-full"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                      ease: "easeInOut"
-                    }}
-                  />
-                ))}
-              </motion.div>
-
-              {/* Loading text */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                className="max-w-md mx-auto"
-              >
-                <p className="text-white/80 text-lg font-light mb-2">
-                  Preparing your experience
-                </p>
-                <motion.p
-                  className="text-white/60 text-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.2, duration: 0.8 }}
-                >
-                  Crafting personalized insights just for you...
-                </motion.p>
-              </motion.div>
-
-              {/* Progress bar */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 0.5 }}
-                className="mt-8 w-64 max-w-full h-1 bg-white/20 rounded-full overflow-hidden mx-auto"
-              >
-                <motion.div
-                  className="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 1.8, duration: 3, ease: "easeOut" }}
-                />
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
         {/* Dynamic Backgrounds */}
@@ -589,7 +495,7 @@ const FinalLanding = () => {
               }}
             >
               <LazyVideo
-                src="/videos/video1.webm"
+                src={videoUrls.video1}
                 autoPlay
                 loop
                 muted
@@ -639,7 +545,7 @@ const FinalLanding = () => {
             <div className="flex-1 flex items-center justify-center relative">
               <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px]">
                 <video
-                  src="/videos/video2.webm"
+                  src={videoUrls.video2}
                   autoPlay
                   loop
                   muted
@@ -725,7 +631,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <LazyVideo
-                src="/videos/video3.webm"
+                src={videoUrls.video3}
                 autoPlay
                 loop
                 muted
@@ -779,7 +685,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <LazyVideo
-                src="/videos/video4.webm"
+                src={videoUrls.video4}
                 autoPlay
                 loop
                 muted
@@ -833,7 +739,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <LazyVideo
-                src="/videos/video5.webm"
+                src={videoUrls.video5}
                 autoPlay
                 loop
                 muted
@@ -1291,7 +1197,7 @@ const FinalLanding = () => {
                 style={{ transform: 'scale(0.9)' }}
               >
                 <LazyVideo
-                  src="/videos/video6.webm"
+                  src={videoUrls.video6}
                   autoPlay
                   loop
                   muted
@@ -1362,7 +1268,7 @@ const FinalLanding = () => {
                   style={{ transform: 'scale(0.9)' }}
                 >
                   <video
-                    src="/videos/video6.webm"
+                    src={videoUrls.video6}
                     autoPlay
                     loop
                     muted
