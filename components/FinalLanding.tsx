@@ -11,22 +11,26 @@ import { videoUrls } from '../config/videoUrls';
 gsap.registerPlugin(ScrollTrigger);
 
 const backgrounds = [
-  '/backgrounds/backg1.png',
-  '/backgrounds/backg2.png',
-  '/backgrounds/backg2.png',
-  '/backgrounds/backg3.png',
-  '/backgrounds/backg3.png',
-  '/backgrounds/backg4.png',
-  '/backgrounds/backg5.png',
-  '/backgrounds/backg6.png',
+  {
+    type: 'gradient' as const,
+    value: 'linear-gradient(160deg, #f8f6f2 0%, #e7e7ec 40%, #cfd8e5 70%, #a2b3c9 100%)'
+  },
+  { type: 'image' as const, value: '/backgrounds/backg1.png' },
+  { type: 'image' as const, value: '/backgrounds/backg2.png' },
+  { type: 'image' as const, value: '/backgrounds/backg2.png' },
+  { type: 'image' as const, value: '/backgrounds/backg3.png' },
+  { type: 'image' as const, value: '/backgrounds/backg3.png' },
+  { type: 'image' as const, value: '/backgrounds/backg4.png' },
+  { type: 'image' as const, value: '/backgrounds/backg5.png' },
+  { type: 'image' as const, value: '/backgrounds/backg6.png' },
 ];
 
 const FinalLanding = () => {
-  const safeAreaOffsets: React.CSSProperties = {
-    top: 'calc(env(safe-area-inset-top, 0px) * -1)',
-    bottom: 'calc(env(safe-area-inset-bottom, 0px) * -1)',
-    left: 'calc(env(safe-area-inset-left, 0px) * -1)',
-    right: 'calc(env(safe-area-inset-right, 0px) * -1)',
+  const safeAreaBleed: React.CSSProperties = {
+    top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+    bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
+    left: 'calc(-1 * env(safe-area-inset-left, 0px))',
+    right: 'calc(-1 * env(safe-area-inset-right, 0px))',
   };
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
@@ -50,7 +54,7 @@ const FinalLanding = () => {
 
   useEffect(() => {
     const imagesToPreload = [
-      ...backgrounds,
+      ...backgrounds.filter(bg => bg.type === 'image').map(bg => bg.value),
       '/coaches/c1.png',
       '/coaches/c2.png',
       '/coaches/c3.png',
@@ -424,27 +428,36 @@ const FinalLanding = () => {
       {/* Fixed viewport container */}
      <div
         className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden"
-        style={safeAreaOffsets}
+        style={safeAreaBleed}
       >
 
         {/* Dynamic Backgrounds */}
-        <div ref={backgroundRef} className="absolute inset-0 z-0 w-full h-full">
+        <div
+          ref={backgroundRef}
+          className="absolute inset-0 z-0 w-full h-full"
+          style={safeAreaBleed}
+        >
           {backgrounds.map((bg, index) => (
             <div
               key={`bg-${index}`}
               data-bg={index}
               className="absolute inset-0 w-full h-full"
-              style={{ opacity: index === 0 ? 1 : 0 }}
+              style={{
+                opacity: index === 0 ? 1 : 0,
+                background: bg.type === 'gradient' ? bg.value : undefined
+              }}
             >
-              <Image
-                src={bg}
-                alt={`Background ${index + 1}`}
-                fill
-                priority={index === 0}
-                quality={90}
-                className="object-cover"
-                sizes="100vw"
-              />
+              {bg.type === 'image' && (
+                <Image
+                  src={bg.value}
+                  alt={`Background ${index + 1}`}
+                  fill
+                  priority={index === 0}
+                  quality={90}
+                  className="object-cover"
+                  sizes="100vw"
+                />
+              )}
             </div>
           ))}
           <div className="absolute inset-0 w-full h-full bg-black/40" />
