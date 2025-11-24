@@ -1279,37 +1279,12 @@ const FinalLanding = () => {
         {/* Section 8 - Completely Private */}
         <div
           ref={section8Ref}
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div
-              className="flex-1 text-center md:text-left md:order-1 order-2 transition-all duration-1000 ease-out left-col drop-shadow-lg"
-              style={{ transform: 'translateX(-30px) scale(0.95)' }}
-            >
-              <h2
-                className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
-                style={{
-                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                  fontWeight: 600
-                }}
-              >
-                Your data.<br />
-                <span className="text-white font-bold">
-                  Always your own.
-                </span>
-              </h2>
-              <p
-                className="text-white/90 text-xl max-w-2xl mx-auto md:mx-0 mt-6 font-normal"
-                style={{
-                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                }}
-              >
-                Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center gap-8 md:order-2 order-1">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
+            {/* Mobile layout */}
+            <div className="flex flex-col items-center gap-8 md:hidden">
               <div
                 className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
                 style={{ transform: 'scale(0.9)' }}
@@ -1324,9 +1299,81 @@ const FinalLanding = () => {
                   style={{ objectPosition: 'center 45%' }}
                 />
               </div>
+              
+              <div
+                className="text-center transition-all duration-1000 ease-out drop-shadow-lg"
+                style={{ transform: 'translateY(-30px) scale(0.95)' }}
+              >
+                <h2
+                  className="text-4xl text-white/80 leading-[1.1]"
+                  style={{
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                    fontWeight: 600
+                  }}
+                >
+                  Your data.<br />
+                  <span className="text-white font-bold">
+                    Always your own.
+                  </span>
+                </h2>
+                <p
+                  className="text-white/90 text-xl max-w-2xl mx-auto mt-6 font-normal"
+                  style={{
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                  }}
+                >
+                  Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
+                </p>
+              </div>
             </div>
 
-            <div className="flex-1 md:order-3" />
+            {/* Desktop layout */}
+            <div className="hidden md:flex items-center justify-between gap-8">
+              <div
+                className="flex-1 text-left transition-all duration-1000 ease-out left-col drop-shadow-lg"
+                style={{ transform: 'translateX(-30px) scale(0.95)' }}
+              >
+                <h2
+                  className="text-5xl text-white/80 leading-[1.1]"
+                  style={{
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                    fontWeight: 600
+                  }}
+                >
+                  Your data.<br />
+                  <span className="text-white font-bold">
+                    Always your own.
+                  </span>
+                </h2>
+                <p
+                  className="text-white/90 text-xl max-w-2xl mt-6 font-normal"
+                  style={{
+                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                  }}
+                >
+                  Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
+                </p>
+              </div>
+
+              <div className="flex-shrink-0">
+                <div
+                  className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
+                  style={{ transform: 'scale(0.9)' }}
+                >
+                  <video
+                    src="/videos/video6.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover rounded-[28px]"
+                    style={{ objectPosition: 'center 45%' }}
+                  />
+                </div>
+              </div>
+
+              <div className="flex-1" />
+            </div>
           </div>
         </div>
       </div>
