@@ -62,14 +62,34 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
       
       const handleCanPlay = () => {
         setIsLoaded(true);
-        video.play().catch(console.error);
+        // Force autoplay with multiple attempts
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            console.log('Video autoplay successful');
+          }).catch(error => {
+            console.log('Autoplay failed, trying muted play:', error);
+            // Fallback: ensure muted and try again
+            video.muted = true;
+            video.play().catch(e => console.log('Muted autoplay also failed:', e));
+          });
+        }
+      };
+
+      // Also try to play on loadeddata as fallback
+      const handleLoadedData = () => {
+        if (!isLoaded) {
+          video.play().catch(console.error);
+        }
       };
 
       video.addEventListener('canplay', handleCanPlay);
+      video.addEventListener('loadeddata', handleLoadedData);
       video.load();
 
       return () => {
         video.removeEventListener('canplay', handleCanPlay);
+        video.removeEventListener('loadeddata', handleLoadedData);
       };
     }
   }, [isInView, isLoaded]);

@@ -494,7 +494,7 @@ const FinalLanding = () => {
                 marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
               }}
             >
-              <LazyVideo
+              <video
                 src={videoUrls.video1}
                 autoPlay
                 loop
