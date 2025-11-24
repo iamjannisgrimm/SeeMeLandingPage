@@ -97,7 +97,11 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
         poster={poster}
         preload="none"
       >
-        <source src={isInView ? src : ''} type="video/mp4" />
+        {isInView && (
+          <>
+            <source src={src} type={src.includes('.webm') ? 'video/webm' : 'video/mp4'} />
+          </>
+        )}
       </video>
     </div>
   );

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import LazyVideo from './LazyVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -587,7 +588,7 @@ const FinalLanding = () => {
                 marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
               }}
             >
-              <video
+              <LazyVideo
                 src="/videos/video1.webm"
                 autoPlay
                 loop
@@ -723,7 +724,7 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <video
+              <LazyVideo
                 src="/videos/video3.webm"
                 autoPlay
                 loop
@@ -777,7 +778,7 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <video
+              <LazyVideo
                 src="/videos/video4.webm"
                 autoPlay
                 loop
@@ -831,7 +832,7 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <video
+              <LazyVideo
                 src="/videos/video5.webm"
                 autoPlay
                 loop
@@ -1289,7 +1290,7 @@ const FinalLanding = () => {
                 className="relative transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden video-container w-[280px] h-[615px]"
                 style={{ transform: 'scale(0.9)' }}
               >
-                <video
+                <LazyVideo
                   src="/videos/video6.webm"
                   autoPlay
                   loop
