@@ -5,7 +5,7 @@
   --foreground: #171717;
 }
 
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
@@ -43,6 +43,37 @@ body {
   
   a, button {
     cursor: none;
+  }
+}
+
+/* iOS Safe Area Insets - Hide black bars */
+html {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height */
+}
+
+/* Fullscreen container that ignores safe areas */
+.fullscreen-container {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+/* Hide Safari UI elements */
+@supports (-webkit-touch-callout: none) {
+  .fullscreen-container {
+    -webkit-appearance: none;
+    appearance: none;
   }
 }
 

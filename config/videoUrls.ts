@@ -4,5 +4,5 @@ export const videoUrls = {
   video3: 'https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video3.webm',
   video4: 'https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video4.webm',
   video5: 'https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video5.webm',
-  video6: 'https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video1.webm', // Testing with video1
+  video6: 'https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video6.webm',
 };

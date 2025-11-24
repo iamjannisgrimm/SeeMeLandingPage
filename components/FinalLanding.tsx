@@ -420,7 +420,7 @@ const FinalLanding = () => {
   ];
 
   return (
-    <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
+    <div ref={containerRef} className="fullscreen-container h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       
       {/* Fixed viewport container */}
       <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
