@@ -339,28 +339,21 @@ const FinalLanding = () => {
             section8Ref.current.style.pointerEvents = isActive ? 'auto' : 'none';
 
             const leftCol = section8Ref.current.querySelector('.left-col') as HTMLElement;
-            const videoContainer = section8Ref.current.querySelector('.video-container') as HTMLElement;
+            const rightCol = section8Ref.current.querySelector('.right-col') as HTMLElement;
+            const centerVideo = section8Ref.current.querySelector('.center-video') as HTMLElement;
 
             if (isActive) {
-              const p = Math.min(progress, 0.95);
-              const p2 = Math.min(progress, 0.98);
+              const entryEase = Math.min((progress - start) * 8, 1);
+              const fadeOutStart = 0.95;
+              const fadeOut = progress >= fadeOutStart
+                ? Math.max(1 - (progress - fadeOutStart) * 10, 0)
+                : 1;
 
-              if (leftCol) {
-                leftCol.style.opacity = String(gsap.utils.mapRange(start, 0.95, 0, 1, p));
-                leftCol.style.transform = `translateX(0px) scale(1)`;
-              }
-              if (videoContainer) {
-                videoContainer.style.opacity = String(gsap.utils.mapRange(start, 0.98, 0, 1, p2));
-                videoContainer.style.transform = `scale(${gsap.utils.mapRange(start, 0.98, 0.95, 1, p2)})`;
-              }
-            } else {
-              if (leftCol) {
-                leftCol.style.opacity = '0';
-                leftCol.style.transform = 'translateX(-30px) scale(0.95)';
-              }
-              if (videoContainer) {
-                videoContainer.style.opacity = '0';
-                videoContainer.style.transform = 'scale(0.95)';
+              if (leftCol) leftCol.style.transform = `translateX(${(-30 + 30 * entryEase)}px) scale(${0.95 + 0.05 * entryEase})`;
+              if (rightCol) rightCol.style.transform = `translateX(${30 - 30 * entryEase}px) scale(${0.95 + 0.05 * entryEase})`;
+              if (centerVideo) {
+                centerVideo.style.opacity = `${fadeOut}`;
+                centerVideo.style.transform = `scale(${0.9 + 0.05 * entryEase})`;
               }
             }
           }
@@ -423,7 +416,8 @@ const FinalLanding = () => {
     <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
       
       {/* Fixed viewport container */}
-      <div className="fixed inset-0 w-screen max-w-full h-screen overflow-hidden">
+     <div className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden">
+
         {/* Dynamic Backgrounds */}
         <div ref={backgroundRef} className="absolute inset-0 z-0 w-full h-full">
           {backgrounds.map((bg, index) => (

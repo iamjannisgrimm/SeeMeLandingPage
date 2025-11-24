@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
@@ -11,14 +12,12 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
-  viewportFit: "cover",
+  viewportFit: "cover", // important for iOS edge-to-edge
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -28,11 +27,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="SeeMe" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#000000" />
-        
-        {/* Prevent Safari from showing callout menu on long press */}
         <meta name="format-detection" content="telephone=no" />
         <meta name="apple-touch-fullscreen" content="yes" />
-        
+
+        {/* Optional: keep or remove; not required for the black bar fix */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
