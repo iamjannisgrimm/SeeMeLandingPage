@@ -21,12 +21,6 @@ const backgrounds = [
 ];
 
 const FinalLanding = () => {
-  const safeAreaBleed: React.CSSProperties = {
-    top: 'calc(-48px - env(safe-area-inset-top, 0px))',
-    bottom: 'calc(-48px - env(safe-area-inset-bottom, 0px))',
-    left: 'calc(-24px - env(safe-area-inset-left, 0px))',
-    right: 'calc(-24px - env(safe-area-inset-right, 0px))',
-  };
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
@@ -419,9 +413,33 @@ const FinalLanding = () => {
 
   return (
     <>
-      {/* Background bleed lives outside the clipped viewport so it can extend into safe areas */}
-      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0" style={safeAreaBleed}>
+      {/* Background - uses 100lvh to cover full screen including safe areas on iOS */}
+      <div 
+        className="fixed z-0 pointer-events-none" 
+        aria-hidden="true"
+        style={{
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          // Use lvh (large viewport height) which includes area behind browser chrome on iOS
+          height: '100lvh',
+          minHeight: '100vh',
+        }}
+      >
+        <div 
+          className="absolute w-full h-full"
+          style={{
+            // Extend beyond safe areas to fill notch/home indicator areas
+            top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+            left: 'calc(-1 * env(safe-area-inset-left, 0px))',
+            right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+            bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
+            // Make it taller to compensate for the negative positioning
+            height: 'calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
+            width: 'calc(100% + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px))',
+          }}
+        >
           <div ref={backgroundRef} className="absolute inset-0 w-full h-full">
             {backgrounds.map((bg, index) => (
               <div
@@ -448,8 +466,8 @@ const FinalLanding = () => {
 
       <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative z-10 overflow-x-hidden">
         
-        {/* Fixed viewport container */}
-        <div className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden">
+        {/* Fixed viewport container - iOS Safari compatible */}
+        <div className="fixed inset-0 w-screen max-w-full overflow-hidden">
 
         {/* Section 1 - Hero with SeeMe */}
         <div
