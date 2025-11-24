@@ -588,7 +588,7 @@ const FinalLanding = () => {
               }}
             >
               <video
-                src="/videos/video1.mp4"
+                src="/videos/video1.webm"
                 autoPlay
                 loop
                 muted
@@ -638,7 +638,7 @@ const FinalLanding = () => {
             <div className="flex-1 flex items-center justify-center relative">
               <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px]">
                 <video
-                  src="/videos/video2.mp4"
+                  src="/videos/video2.webm"
                   autoPlay
                   loop
                   muted
@@ -724,7 +724,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <video
-                src="/videos/video3.mp4"
+                src="/videos/video3.webm"
                 autoPlay
                 loop
                 muted
@@ -778,7 +778,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <video
-                src="/videos/video4.mp4"
+                src="/videos/video4.webm"
                 autoPlay
                 loop
                 muted
@@ -832,7 +832,7 @@ const FinalLanding = () => {
               style={{ transform: 'scale(0.9)' }}
             >
               <video
-                src="/videos/video5.mp4"
+                src="/videos/video5.webm"
                 autoPlay
                 loop
                 muted
@@ -1290,7 +1290,7 @@ const FinalLanding = () => {
                 style={{ transform: 'scale(0.9)' }}
               >
                 <video
-                  src="/videos/video6.mp4"
+                  src="/videos/video6.webm"
                   autoPlay
                   loop
                   muted
@@ -1361,7 +1361,7 @@ const FinalLanding = () => {
                   style={{ transform: 'scale(0.9)' }}
                 >
                   <video
-                    src="/videos/video6.mp4"
+                    src="/videos/video6.webm"
                     autoPlay
                     loop
                     muted
