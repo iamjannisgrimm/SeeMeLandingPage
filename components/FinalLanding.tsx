@@ -5,32 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LazyVideo from './LazyVideo';
 import { videoUrls } from '../config/videoUrls';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const backgrounds = [
-  {
-    type: 'gradient' as const,
-    value: 'linear-gradient(160deg, #f8f6f2 0%, #e7e7ec 40%, #cfd8e5 70%, #a2b3c9 100%)'
-  },
-  { type: 'image' as const, value: '/backgrounds/backg1.png' },
-  { type: 'image' as const, value: '/backgrounds/backg2.png' },
-  { type: 'image' as const, value: '/backgrounds/backg2.png' },
-  { type: 'image' as const, value: '/backgrounds/backg3.png' },
-  { type: 'image' as const, value: '/backgrounds/backg3.png' },
-  { type: 'image' as const, value: '/backgrounds/backg4.png' },
-  { type: 'image' as const, value: '/backgrounds/backg5.png' },
-  { type: 'image' as const, value: '/backgrounds/backg6.png' },
+  '/backgrounds/backg1.png',
+  '/backgrounds/backg2.png',
+  '/backgrounds/backg2.png',
+  '/backgrounds/backg3.png',
+  '/backgrounds/backg3.png',
+  '/backgrounds/backg4.png',
+  '/backgrounds/backg5.png',
+  '/backgrounds/backg6.png',
 ];
 
 const FinalLanding = () => {
   const safeAreaBleed: React.CSSProperties = {
-    top: 'calc(-1 * env(safe-area-inset-top, 0px))',
-    bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
-    left: 'calc(-1 * env(safe-area-inset-left, 0px))',
-    right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+    top: 'calc(-48px - env(safe-area-inset-top, 0px))',
+    bottom: 'calc(-48px - env(safe-area-inset-bottom, 0px))',
+    left: 'calc(-24px - env(safe-area-inset-left, 0px))',
+    right: 'calc(-24px - env(safe-area-inset-right, 0px))',
   };
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
@@ -54,7 +49,7 @@ const FinalLanding = () => {
 
   useEffect(() => {
     const imagesToPreload = [
-      ...backgrounds.filter(bg => bg.type === 'image').map(bg => bg.value),
+      ...backgrounds,
       '/coaches/c1.png',
       '/coaches/c2.png',
       '/coaches/c3.png',
@@ -423,33 +418,20 @@ const FinalLanding = () => {
   ];
 
   return (
-    <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative overflow-x-hidden">
-      
-      {/* Fixed viewport container */}
-     <div
-        className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden"
-        style={safeAreaBleed}
-      >
-
-        {/* Dynamic Backgrounds */}
-        <div
-          ref={backgroundRef}
-          className="absolute inset-0 z-0 w-full h-full"
-          style={safeAreaBleed}
-        >
-          {backgrounds.map((bg, index) => (
-            <div
-              key={`bg-${index}`}
-              data-bg={index}
-              className="absolute inset-0 w-full h-full"
-              style={{
-                opacity: index === 0 ? 1 : 0,
-                background: bg.type === 'gradient' ? bg.value : undefined
-              }}
-            >
-              {bg.type === 'image' && (
+    <>
+      {/* Background bleed lives outside the clipped viewport so it can extend into safe areas */}
+      <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0" style={safeAreaBleed}>
+          <div ref={backgroundRef} className="absolute inset-0 w-full h-full">
+            {backgrounds.map((bg, index) => (
+              <div
+                key={`bg-${index}`}
+                data-bg={index}
+                className="absolute inset-0 w-full h-full"
+                style={{ opacity: index === 0 ? 1 : 0 }}
+              >
                 <Image
-                  src={bg.value}
+                  src={bg}
                   alt={`Background ${index + 1}`}
                   fill
                   priority={index === 0}
@@ -457,11 +439,17 @@ const FinalLanding = () => {
                   className="object-cover"
                   sizes="100vw"
                 />
-              )}
-            </div>
-          ))}
-          <div className="absolute inset-0 w-full h-full bg-black/40" />
+              </div>
+            ))}
+            <div className="absolute inset-0 w-full h-full bg-black/40" />
+          </div>
         </div>
+      </div>
+
+      <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative z-10 overflow-x-hidden">
+        
+        {/* Fixed viewport container */}
+        <div className="fixed inset-0 w-screen max-w-full h-[100dvh] md:h-[100dvh] overflow-hidden">
 
         {/* Section 1 - Hero with SeeMe */}
         <div
@@ -1319,8 +1307,10 @@ const FinalLanding = () => {
             </div>
           </div>
         </div>
+        </div>
+
       </div>
-    </div>
+    </>
   );
 };
 

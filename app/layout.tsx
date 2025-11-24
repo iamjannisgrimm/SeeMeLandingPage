@@ -42,7 +42,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased safe-area">
+      <body className="font-sans antialiased">
         {children}
       </body>
     </html>
