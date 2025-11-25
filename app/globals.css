@@ -65,6 +65,10 @@ body {
 @media (min-width: 768px) {
   body { cursor: none; }
   a, button { cursor: none; }
+  
+  /* Show cursor on CTA section and interactive elements */
+  .cursor-auto, .cursor-auto * { cursor: auto !important; }
+  .cursor-auto a, .cursor-auto button { cursor: pointer !important; }
 }
 
 /* Typography */
@@ -108,6 +112,39 @@ body > div {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Custom scrollbar for reviews carousel */
+.reviews-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+.reviews-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  margin: 0 16px;
+}
+.reviews-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  cursor: grab;
+}
+.reviews-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+.reviews-scroll-container::-webkit-scrollbar-thumb:active {
+  cursor: grabbing;
+  background: rgba(255, 255, 255, 0.8);
+}
+.reviews-scroll-container {
+  scrollbar-width: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.15);
+  overflow-x: scroll !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  cursor: grab;
+}
+.reviews-scroll-container:active {
+  cursor: grabbing;
 }
 
 /* Fade in animation for final text */

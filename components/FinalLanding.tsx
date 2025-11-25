@@ -471,7 +471,7 @@ const FinalLanding = () => {
       <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative z-10 overflow-x-hidden">
         
         {/* Fixed viewport container */}
-        <div className="fixed inset-0 w-screen max-w-full overflow-hidden">
+        <div className="fixed inset-0 w-screen max-w-full" style={{ overflow: 'clip' }}>
 
         {/* Section 1 - Hero with SeeMe */}
         <div
@@ -865,15 +865,12 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, y: -50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        y: [-50, 0, 0, -20],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        y: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
+                        duration: 0.6,
                         delay: 0,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
@@ -891,16 +888,13 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, y: -50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        y: [-50, 0, 0, -20],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        y: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        delay: 2,
+                        duration: 0.6,
+                        delay: 0.3,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
                       className="pointer-events-none z-20"
@@ -920,16 +914,13 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, x: -50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        x: [-50, 0, 0, -30],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        x: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        delay: 1,
+                        duration: 0.6,
+                        delay: 0.6,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
                       className="pointer-events-none z-20"
@@ -946,16 +937,13 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, x: 50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        x: [50, 0, 0, 30],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        x: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        delay: 3,
+                        duration: 0.6,
+                        delay: 0.9,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
                       className="pointer-events-none z-20"
@@ -975,16 +963,13 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        y: [50, 0, 0, 20],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        y: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        delay: 1.5,
+                        duration: 0.6,
+                        delay: 1.2,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
                       className="pointer-events-none z-20"
@@ -1001,16 +986,13 @@ const FinalLanding = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 50, scale: 0.8 }}
                       animate={{
-                        opacity: [0, 1, 1, 0],
-                        y: [50, 0, 0, 20],
-                        scale: [0.8, 1, 1, 0.9]
+                        opacity: 1,
+                        y: 0,
+                        scale: 1
                       }}
                       transition={{
-                        duration: 8,
-                        times: [0, 0.15, 0.75, 1],
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        delay: 2.5,
+                        duration: 0.6,
+                        delay: 1.5,
                         ease: [0.34, 1.56, 0.64, 1]
                       }}
                       className="pointer-events-none z-20"
@@ -1034,9 +1016,9 @@ const FinalLanding = () => {
         <div
           ref={section7Ref}
           className="absolute inset-0 flex items-center justify-center"
-          style={{ opacity: 0, pointerEvents: 'none' }}
+          style={{ opacity: 0, pointerEvents: 'none', overflow: 'visible' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8" style={{ overflow: 'visible' }}>
             <motion.h2
               initial={{ opacity: 0, y: -30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1060,112 +1042,33 @@ const FinalLanding = () => {
               Authentic stories of <span className="text-white font-semibold">clarity, confidence, and balance</span> from SeeMe's early community.
             </p>
 
-            {/* Desktop: Grid layout */}
-            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
-              {reviews.map((review, index) => (
-                <motion.div
-                  key={index}
-                  initial={{
-                    opacity: 0,
-                    y: 80,
-                    scale: 0.85,
-                    rotateX: -20
-                  }}
-                  animate={activeSection === 6 ? {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    rotateX: 0
-                  } : {
-                    opacity: 0,
-                    y: 80,
-                    scale: 0.85,
-                    rotateX: -20
-                  }}
-                  transition={{
-                    delay: index * 0.3,
-                    type: "spring",
-                    damping: 25,
-                    stiffness: 80,
-                    duration: 1.2
-                  }}
-                  whileHover={{
-                    scale: 1.05,
-                    y: -8,
-                    transition: { type: "spring", stiffness: 300, damping: 20 }
-                  }}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl"
-                  style={{
-                    transformStyle: 'preserve-3d',
-                    perspective: '1000px'
-                  }}
-                >
+            {/* Manual scroll carousel - both desktop and mobile */}
+            <div 
+              className="overflow-x-auto pb-6 reviews-scroll-container"
+              style={{ 
+                pointerEvents: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                overflowX: 'scroll',
+                touchAction: 'pan-x'
+              }}
+            >
+              <div className="flex gap-6 px-4 w-max">
+                  {reviews.map((review, index) => (
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3 + index * 0.1 }}
-                    className="mb-3"
-                  >
-                    <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2"
-                      style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-                      {review.category}
-                    </p>
-                    <div className="flex mb-3">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <motion.svg
-                          key={i}
-                          initial={{ opacity: 0, scale: 0 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            delay: 0.4 + index * 0.1 + i * 0.05,
-                            type: "spring",
-                            stiffness: 200
-                          }}
-                          className="w-4 h-4 text-yellow-400 fill-current"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-                        </motion.svg>
-                      ))}
-                    </div>
-                  </motion.div>
-                  <p
-                    className="text-white/90 text-base mb-4 leading-relaxed"
-                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
-                  >
-                    "{review.text}"
-                  </p>
-                  <p
-                    className="text-white/70 text-xs font-medium italic"
-                    style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
-                  >
-                    {review.name}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Mobile: Horizontal scrollable carousel */}
-            <div className="md:hidden overflow-x-scroll scrollbar-hide">
-              <div className="flex gap-4 pb-4 px-4">
-                {reviews.map((review, index) => (
-                  <motion.div
-                    key={`mobile-${index}`}
-                    initial={{ opacity: 0, x: 50 }}
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={activeSection === 6 ? {
                       opacity: 1,
-                      x: 0
+                      y: 0
                     } : {
                       opacity: 0,
-                      x: 50
+                      y: 30
                     }}
                     transition={{
-                      delay: index * 0.15,
-                      duration: 0.6,
-                      ease: "easeOut"
+                      delay: (index % reviews.length) * 0.1,
+                      duration: 0.5
                     }}
-                    className={`bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20 shadow-xl flex-shrink-0 w-[85vw] max-w-[340px] ${index === reviews.length - 1 ? 'mr-4' : ''
-                      }`}
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-5 md:p-6 border border-white/20 shadow-xl flex-shrink-0 w-[300px] md:w-[350px]"
                   >
                     <div className="mb-3">
                       <p className="text-white/60 text-xs font-semibold uppercase tracking-wider mb-2"
@@ -1185,7 +1088,7 @@ const FinalLanding = () => {
                       </div>
                     </div>
                     <p
-                      className="text-white/90 text-base mb-4 leading-relaxed"
+                      className="text-white/90 text-sm md:text-base mb-4 leading-relaxed"
                       style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
                     >
                       "{review.text}"
@@ -1257,10 +1160,10 @@ const FinalLanding = () => {
         {/* Section 9 - CTA */}
         <div
           ref={section9Ref}
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center z-50 cursor-auto"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="cta-inner relative z-10 flex flex-col items-center justify-center text-center px-4">
+          <div className="cta-inner relative z-10 flex flex-col items-center justify-center text-center px-4 cursor-auto">
             <h2
               className="text-4xl md:text-6xl text-white/80 leading-[1.1] drop-shadow-lg"
               style={{
@@ -1287,7 +1190,7 @@ const FinalLanding = () => {
               href="https://apps.apple.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-2xl"
+              className="mt-10 inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-2xl cursor-pointer"
               style={{
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
               }}
@@ -1299,7 +1202,7 @@ const FinalLanding = () => {
             </a>
           </div>
         </div>
-        </div>
+      </div>
 
       </div>
     </main>
