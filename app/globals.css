@@ -22,8 +22,7 @@ html {
   max-width: 100vw;
   overflow-x: hidden;
   position: relative;
-  /* DO NOT set height/min-height here — it causes gutter issues on iOS */
-  background: #000;          /* match body to avoid any flash */
+  background: #000;
   touch-action: pan-x pan-y;
   -ms-touch-action: pan-x pan-y;
 }

@@ -412,61 +412,37 @@ const FinalLanding = () => {
   ];
 
   return (
-    <>
-      {/* Background - uses 100lvh to cover full screen including safe areas on iOS */}
+    <main className="relative min-h-screen overflow-x-hidden bg-black">
+      {/* Background - absolute inside main, not fixed */}
       <div 
-        className="fixed z-0 pointer-events-none" 
+        ref={backgroundRef}
+        className="fixed inset-0 z-0 pointer-events-none"
         aria-hidden="true"
-        style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          // Use lvh (large viewport height) which includes area behind browser chrome on iOS
-          height: '100lvh',
-          minHeight: '100vh',
-        }}
       >
-        <div 
-          className="absolute w-full h-full"
-          style={{
-            // Extend beyond safe areas to fill notch/home indicator areas
-            top: 'calc(-1 * env(safe-area-inset-top, 0px))',
-            left: 'calc(-1 * env(safe-area-inset-left, 0px))',
-            right: 'calc(-1 * env(safe-area-inset-right, 0px))',
-            bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
-            // Make it taller to compensate for the negative positioning
-            height: 'calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
-            width: 'calc(100% + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px))',
-          }}
-        >
-          <div ref={backgroundRef} className="absolute inset-0 w-full h-full">
-            {backgrounds.map((bg, index) => (
-              <div
-                key={`bg-${index}`}
-                data-bg={index}
-                className="absolute inset-0 w-full h-full"
-                style={{ opacity: index === 0 ? 1 : 0 }}
-              >
-                <Image
-                  src={bg}
-                  alt={`Background ${index + 1}`}
-                  fill
-                  priority={index === 0}
-                  quality={90}
-                  className="object-cover"
-                  sizes="100vw"
-                />
-              </div>
-            ))}
-            <div className="absolute inset-0 w-full h-full bg-black/40" />
+        {backgrounds.map((bg, index) => (
+          <div
+            key={`bg-${index}`}
+            data-bg={index}
+            className="absolute inset-0"
+            style={{ opacity: index === 0 ? 1 : 0 }}
+          >
+            <Image
+              src={bg}
+              alt={`Background ${index + 1}`}
+              fill
+              priority={index === 0}
+              quality={90}
+              className="object-cover"
+              sizes="100vw"
+            />
           </div>
-        </div>
+        ))}
+        <div className="absolute inset-0 bg-black/40" />
       </div>
 
       <div ref={containerRef} className="h-[3200vh] w-screen max-w-full relative z-10 overflow-x-hidden">
         
-        {/* Fixed viewport container - iOS Safari compatible */}
+        {/* Fixed viewport container */}
         <div className="fixed inset-0 w-screen max-w-full overflow-hidden">
 
         {/* Section 1 - Hero with SeeMe */}
@@ -1328,7 +1304,7 @@ const FinalLanding = () => {
         </div>
 
       </div>
-    </>
+    </main>
   );
 };
 
