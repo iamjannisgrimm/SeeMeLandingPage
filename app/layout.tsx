@@ -21,6 +21,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* Preconnect to video CDN - speeds up initial connection by ~100-300ms */}
+        <link rel="preconnect" href="https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com" />
+        <link rel="dns-prefetch" href="https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com" />
+        
+        {/* Preload hero video for fastest possible start */}
+        <link 
+          rel="preload" 
+          href="https://egpa9h7lsejcuxfd.public.blob.vercel-storage.com/videos/video1.webm" 
+          as="video" 
+          type="video/webm"
+        />
+
         {/* iOS Web App Meta Tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />

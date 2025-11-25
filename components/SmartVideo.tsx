@@ -8,6 +8,7 @@ interface SmartVideoProps {
   className?: string;
   style?: React.CSSProperties;
   onLoad?: () => void;
+  poster?: string; // Optional poster image
 }
 
 // Global video cache to track loaded videos
@@ -72,6 +73,7 @@ const SmartVideo: React.FC<SmartVideoProps> = ({
   className = '',
   style = {},
   onLoad,
+  poster,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -120,11 +122,15 @@ const SmartVideo: React.FC<SmartVideoProps> = ({
       videoCache.set(src, true);
       onLoad?.();
       
-      // Try to play
-      video.play().catch(() => {
-        video.muted = true;
-        video.play().catch(console.error);
-      });
+      // Try to play with exponential backoff
+      const tryPlay = (attempts = 0) => {
+        video.play().catch(() => {
+          if (attempts < 3) {
+            setTimeout(() => tryPlay(attempts + 1), 100 * (attempts + 1));
+          }
+        });
+      };
+      tryPlay();
     };
 
     const handleError = () => {
@@ -180,7 +186,8 @@ const SmartVideo: React.FC<SmartVideoProps> = ({
         loop
         muted
         playsInline
-        preload={priority ? 'auto' : 'none'}
+        preload={priority ? 'metadata' : 'none'}
+        poster={poster}
       >
         {isVisible && <source src={src} type="video/webm" />}
       </video>

@@ -19,6 +19,7 @@ const backgrounds = [
   '/backgrounds/backg4.png',
   '/backgrounds/backg5.png',
   '/backgrounds/backg6.png',
+  '/backgrounds/backg6.png', // CTA uses same background as section 8
 ];
 
 const FinalLanding = () => {
@@ -34,6 +35,7 @@ const FinalLanding = () => {
   const section6Ref = useRef<HTMLDivElement>(null);
   const section7Ref = useRef<HTMLDivElement>(null);
   const section8Ref = useRef<HTMLDivElement>(null);
+  const section9Ref = useRef<HTMLDivElement>(null);
 
   const riseSpanRef = useRef<HTMLSpanElement>(null);
   const riseTextRef = useRef<HTMLParagraphElement>(null);
@@ -119,6 +121,11 @@ const FinalLanding = () => {
         scrub: 1.5,
         snap: {
           snapTo: (progress) => {
+            // Don't snap at the very start (prevents auto-scroll on load)
+            if (progress < 0.02) {
+              return 0;
+            }
+            
             // Get current scroll velocity
             const velocity = Math.abs(ScrollTrigger.getById('main-scroll')?.getVelocity() || 0);
 
@@ -127,18 +134,29 @@ const FinalLanding = () => {
               return progress; // Return current progress, no snapping
             }
 
-            // If scrolling slowly or stopped, snap to nearest section
-            const snapPoints = [0, 0.1875, 0.3125, 0.4375, 0.5625, 0.6875, 0.8125, 1];
+            // If scrolling slowly or stopped, snap to CENTER of each section
+            // Section centers: 0.5/9, 1.5/9, 2.5/9, etc.
+            const snapPoints = [
+              0,       // Stay at top if near top
+              1.5/9,   // Section 2 center
+              2.5/9,   // Section 3 center
+              3.5/9,   // Section 4 center
+              4.5/9,   // Section 5 center
+              5.5/9,   // Section 6 center
+              6.5/9,   // Section 7 center
+              7.5/9,   // Section 8 center
+              1,       // Section 9 (CTA) - snap to end
+            ];
             const closest = snapPoints.reduce((prev, curr) =>
               Math.abs(curr - progress) < Math.abs(prev - progress) ? curr : prev
             );
 
-            // Only snap if we're reasonably close to a section
+            // Only snap if we're reasonably close to a section center
             const distance = Math.abs(closest - progress);
-            return distance < 0.15 ? closest : progress;
+            return distance < 0.1 ? closest : progress;
           },
-          duration: { min: 0.6, max: 1.4 }, // Slightly longer duration for smoother feel
-          delay: 0.3, // Longer delay to give user more control
+          duration: { min: 0.6, max: 1.4 },
+          delay: 0.5, // Longer delay to prevent snap on load
           ease: "power2.inOut"
         },
         id: 'main-scroll', // Give it an ID so we can reference it for velocity
@@ -147,7 +165,7 @@ const FinalLanding = () => {
 
           // Update Active Section (0-7) for conditional rendering of heavy components
           // We use a slight buffer to ensure we don't flicker at boundaries
-          const newSection = Math.min(Math.floor(progress * 8), 7);
+          const newSection = Math.min(Math.floor(progress * 9), 8);
           setActiveSection((prev) => (prev !== newSection ? newSection : prev));
 
           // Debug log for section 5 (rise section)
@@ -216,17 +234,17 @@ const FinalLanding = () => {
 
           // --- Apply Animations to Sections ---
 
-          // Section 1: Hero (0 - 1/8)
+          // Section 1: Hero (0 - 1/9)
           if (heroRef.current) {
             // Custom logic for Hero from original: fade out only
-            const opacity = progress <= 1 / 8 ? (progress < 0.08 ? 1 : 1 - gsap.utils.mapRange(0.08, 1 / 8, 0, 1, progress)) : 0;
+            const opacity = progress <= 1 / 9 ? (progress < 0.07 ? 1 : 1 - gsap.utils.mapRange(0.07, 1 / 9, 0, 1, progress)) : 0;
             heroRef.current.style.opacity = String(opacity);
-            heroRef.current.style.pointerEvents = progress < 1 / 8 ? 'auto' : 'none';
+            heroRef.current.style.pointerEvents = progress < 1 / 9 ? 'auto' : 'none';
           }
 
-          // Section 2: Network (1/8 - 2/8)
+          // Section 2: Network (1/9 - 2/9)
           if (section2Ref.current) {
-            const start = 1 / 8, end = 2 / 8;
+            const start = 1 / 9, end = 2 / 9;
             const opacity = getSectionOpacity(start, end);
             section2Ref.current.style.opacity = String(opacity);
             section2Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
@@ -238,9 +256,9 @@ const FinalLanding = () => {
             }
           }
 
-          // Section 3: Understanding (2/8 - 3/8)
+          // Section 3: Understanding (2/9 - 3/9)
           if (section3Ref.current) {
-            const start = 2 / 8, end = 3 / 8;
+            const start = 2 / 9, end = 3 / 9;
             section3Ref.current.style.opacity = String(getSectionOpacity(start, end));
             section3Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
 
@@ -254,9 +272,9 @@ const FinalLanding = () => {
             if (centerVideo) centerVideo.style.transform = isActive ? 'scale(1)' : 'scale(0.9)';
           }
 
-          // Section 4: Insights (3/8 - 4/8)
+          // Section 4: Insights (3/9 - 4/9)
           if (section4Ref.current) {
-            const start = 3 / 8, end = 4 / 8;
+            const start = 3 / 9, end = 4 / 9;
             section4Ref.current.style.opacity = String(getSectionOpacity(start, end));
             section4Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
 
@@ -270,9 +288,9 @@ const FinalLanding = () => {
             if (centerVideo) centerVideo.style.transform = isActive ? 'scale(1)' : 'scale(0.9)';
           }
 
-          // Section 5: Strategies (4/8 - 5/8)
+          // Section 5: Strategies (4/9 - 5/9)
           if (section5Ref.current) {
-            const start = 4 / 8, end = 5 / 8;
+            const start = 4 / 9, end = 5 / 9;
             section5Ref.current.style.opacity = String(getSectionOpacity(start, end));
             section5Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
 
@@ -286,16 +304,16 @@ const FinalLanding = () => {
             if (centerVideo) centerVideo.style.transform = isActive ? 'scale(1)' : 'scale(0.9)';
           }
 
-          // Section 6: Rise (5/8 - 6/8)
+          // Section 6: Rise (5/9 - 6/9)
           if (section6Ref.current) {
-            const start = 5 / 8, end = 6 / 8;
+            const start = 5 / 9, end = 6 / 9;
             section6Ref.current.style.opacity = String(getSectionOpacity(start, end));
             section6Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
 
             // Special logic for the "daily guidance" span
             if (riseSpanRef.current) {
-              const spanStart = 5 / 8;
-              const spanEnd = 5.5 / 8; // Finishes earlier to stay longer
+              const spanStart = 5 / 9;
+              const spanEnd = 5.5 / 9; // Finishes earlier to stay longer
               let spanOpacity = 0;
               let spanY = 200;
 
@@ -319,9 +337,9 @@ const FinalLanding = () => {
             }
           }
 
-          // Section 7: Reviews (6/8 - 7/8) - Extended duration
+          // Section 7: Reviews (6/9 - 7/9)
           if (section7Ref.current) {
-            const start = 6 / 8, end = 7 / 8;
+            const start = 6 / 9, end = 7 / 9;
             section7Ref.current.style.opacity = String(getSectionOpacity(start, end));
             section7Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
 
@@ -335,30 +353,35 @@ const FinalLanding = () => {
             }
           }
 
-          // Section 8: Privacy (7/8 - 1)
+          // Section 8: Privacy (7/9 - 8/9)
           if (section8Ref.current) {
-            const start = 7 / 8;
+            const start = 7 / 9, end = 8 / 9;
+            section8Ref.current.style.opacity = String(getSectionOpacity(start, end));
+            section8Ref.current.style.pointerEvents = progress >= start && progress < end ? 'auto' : 'none';
+          }
+
+          // Section 9: CTA (8/9 - 1) - stays visible at end
+          if (section9Ref.current) {
+            const start = 8 / 9;
             const isActive = progress >= start;
-            section8Ref.current.style.opacity = isActive ? '1' : '0';
-            section8Ref.current.style.pointerEvents = isActive ? 'auto' : 'none';
-
-            const leftCol = section8Ref.current.querySelector('.left-col') as HTMLElement;
-            const rightCol = section8Ref.current.querySelector('.right-col') as HTMLElement;
-            const centerVideo = section8Ref.current.querySelector('.center-video') as HTMLElement;
-
+            
+            // Fade in and STAY fully visible (no fade out)
+            let opacity = 0;
             if (isActive) {
-              const entryEase = Math.min((progress - start) * 8, 1);
-              const fadeOutStart = 0.95;
-              const fadeOut = progress >= fadeOutStart
-                ? Math.max(1 - (progress - fadeOutStart) * 10, 0)
-                : 1;
-
-              if (leftCol) leftCol.style.transform = `translateX(${(-30 + 30 * entryEase)}px) scale(${0.95 + 0.05 * entryEase})`;
-              if (rightCol) rightCol.style.transform = `translateX(${30 - 30 * entryEase}px) scale(${0.95 + 0.05 * entryEase})`;
-              if (centerVideo) {
-                centerVideo.style.opacity = `${fadeOut}`;
-                centerVideo.style.transform = `scale(${0.9 + 0.05 * entryEase})`;
-              }
+              // Quick fade in, then stay at 1
+              opacity = Math.min((progress - start) * 18, 1); // Faster fade in
+            }
+            
+            section9Ref.current.style.opacity = String(opacity);
+            section9Ref.current.style.pointerEvents = isActive ? 'auto' : 'none';
+            
+            // Animate the content - settle into final position
+            const ctaInner = section9Ref.current.querySelector('.cta-inner') as HTMLElement;
+            if (ctaInner) {
+              const animProgress = Math.min((progress - start) * 18, 1);
+              const scale = 0.95 + 0.05 * animProgress;
+              const y = 30 - 30 * animProgress;
+              ctaInner.style.transform = `translateY(${y}px) scale(${scale})`;
             }
           }
         }
@@ -379,39 +402,39 @@ const FinalLanding = () => {
 
   const reviews = [
     {
-      name: "Maya, 32 — Berlin",
+      name: "Maya, 32, Berlin",
       category: "Personal Growth & Clarity",
-      text: "SeeMe helped me connect the dots in my life — it's like having a calm, intelligent coach who actually remembers me and keeps me focused.",
+      text: "SeeMe helped me connect the dots in my life. It's like having a calm, intelligent coach who actually remembers me and keeps me focused.",
       rating: 5
     },
     {
-      name: "Daniel, 29 — Toronto",
+      name: "Daniel, 29, Toronto",
       category: "Privacy & Safety",
-      text: "I never realized how much I held back with other AI tools until SeeMe. Knowing my data stays mine changes everything — I can actually be honest.",
+      text: "I never realized how much I held back with other AI tools until SeeMe. Knowing my data stays mine changes everything. I can actually be honest.",
       rating: 5
     },
     {
-      name: "Lina, 27 — San Francisco",
+      name: "Lina, 27, San Francisco",
       category: "Daily Reflection & Balance",
       text: "The morning check-ins are my favorite part of the day. They keep me grounded and remind me to slow down before things spiral.",
       rating: 5
     },
     {
-      name: "Sophie, 41 — London",
+      name: "Sophie, 41, London",
       category: "Expert-Guided Coaching Feel",
-      text: "It feels like talking to a real mentor — thoughtful questions, real structure, and gentle accountability without pressure.",
+      text: "It feels like talking to a real mentor. Thoughtful questions, real structure, and gentle accountability without pressure.",
       rating: 5
     },
     {
-      name: "Arjun, 35 — Mumbai",
+      name: "Arjun, 35, Mumbai",
       category: "Emotional Connection & Trust",
-      text: "SeeMe listens in a way no app ever has. It doesn't just respond — it understands where I am and helps me grow from there.",
+      text: "SeeMe listens in a way no app ever has. It doesn't just respond. It understands where I am and helps me grow from there.",
       rating: 5
     },
     {
-      name: "Isabella, 30 — New York",
+      name: "Isabella, 30, New York",
       category: "Intelligent Questions / Deep Understanding",
-      text: "It's wild how well SeeMe knows me now. The questions it asks cut right to the heart of what I'm feeling — like it sees what I can't yet name.",
+      text: "It's wild how well SeeMe knows me now. The questions it asks cut right to the heart of what I'm feeling. Like it sees what I can't yet name.",
       rating: 5
     }
   ];
@@ -483,7 +506,7 @@ const FinalLanding = () => {
                   fontSize: 'clamp(0.875rem, 2vw, 1.5rem)'
                 }}
               >
-                Your private AI for clarity, balance, and deeply personalized growth
+                Private personal intelligence for your growth
               </p>
             </div>
 
@@ -518,9 +541,11 @@ const FinalLanding = () => {
           className="absolute inset-0 flex items-center justify-center"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-0">
+          {/* Centered group container */}
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content */}
             <div
-              className="flex-1 text-center transition-all duration-1000 ease-out text-content drop-shadow-lg"
+              className="text-center transition-all duration-1000 ease-out text-content drop-shadow-lg w-full md:w-auto md:max-w-sm"
               style={{ transform: 'translateY(30px) scale(0.95)' }}
             >
               <h2
@@ -533,70 +558,67 @@ const FinalLanding = () => {
                 </span>
               </h2>
               <p
-                className="text-white/90 text-xl max-w-2xl mx-auto mt-6 font-normal"
+                className="text-white/90 text-lg mt-6 font-normal"
                 style={{
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 }}
               >
-                Crafted with <span className="text-white font-semibold">real coaches and therapists</span>—supporting life, work, wellness, and mindset.
+                Crafted with <span className="text-white font-semibold">real coaches and therapists</span>, supporting life, work, wellness, and mindset.
               </p>
             </div>
 
-            <div className="flex-1 flex items-center justify-center relative">
-              <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px]">
-                <SmartVideo
-                  src={videoUrls.video2}
-                  className="w-full h-full object-cover rounded-[28px]"
-                  style={{ objectPosition: 'center 45%' }}
-                />
+            {/* Video mockup */}
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+              <SmartVideo
+                src={videoUrls.video2}
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
 
-                <AnimatePresence>
-                  {activeSection === 1 && coaches.map((coach, index) => {
-                    const angle = (index / coaches.length) * Math.PI * 2;
-                    const radius = 250;
-                    const startX = Math.cos(angle) * radius;
-                    const startY = Math.sin(angle) * radius;
+              <AnimatePresence>
+                {activeSection === 1 && coaches.map((coach, index) => {
+                  const angle = (index / coaches.length) * Math.PI * 2;
+                  const radius = 250;
+                  const startX = Math.cos(angle) * radius;
+                  const startY = Math.sin(angle) * radius;
 
-                    return (
-                      <motion.div
-                        key={coach.id}
-                        initial={{
-                          x: startX,
-                          y: startY,
-                          opacity: 0,
-                          scale: 0.8
-                        }}
-                        animate={{
-                          x: [startX, 0],
-                          y: [startY, 0],
-                          opacity: [0, 1, 1, 0],
-                          scale: [0.8, 1, 0.6, 0.3]
-                        }}
-                        transition={{
-                          duration: 2.5,
-                          delay: coach.delay + 0.3,
-                          ease: "easeInOut",
-                          times: [0, 0.4, 0.8, 1]
-                        }}
-                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 pointer-events-none"
-                      >
-                        <div className="relative w-full h-full rounded-full border-4 border-white shadow-lg overflow-hidden">
-                          <Image
-                            src={coach.img}
-                            alt={`Coach ${coach.id}`}
-                            fill
-                            className="object-cover"
-                            sizes="80px"
-                          />
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </div>
+                  return (
+                    <motion.div
+                      key={coach.id}
+                      initial={{
+                        x: startX,
+                        y: startY,
+                        opacity: 0,
+                        scale: 0.8
+                      }}
+                      animate={{
+                        x: [startX, 0],
+                        y: [startY, 0],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.8, 1, 0.6, 0.3]
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        delay: coach.delay + 0.3,
+                        ease: "easeInOut",
+                        times: [0, 0.4, 0.8, 1]
+                      }}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 pointer-events-none"
+                    >
+                      <div className="relative w-full h-full rounded-full border-4 border-white shadow-lg overflow-hidden">
+                        <Image
+                          src={coach.img}
+                          alt={`Coach ${coach.id}`}
+                          fill
+                          className="object-cover"
+                          sizes="80px"
+                        />
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
-
-            <div className="flex-1" />
           </div>
         </div>
 
@@ -606,10 +628,12 @@ const FinalLanding = () => {
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Centered group container */}
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content */}
             <div
-              className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out left-col drop-shadow-lg"
-              style={{ transform: 'translateX(-30px) scale(0.95)' }}
+              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
+              style={{ transform: 'translateY(30px) scale(0.95)' }}
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -620,43 +644,37 @@ const FinalLanding = () => {
                   truly understand you
                 </span>
               </h2>
-            </div>
-
-  <div
-    className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
-    style={{ transform: 'scale(0.9)' }}
-  >
-    <SmartVideo
-      src={videoUrls.video3}
-      className="w-full h-full object-cover rounded-[28px]"
-      style={{ objectPosition: 'center 45%' }}
-    />
-  </div>
-
-            <div
-              className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out right-col drop-shadow-lg"
-              style={{ transform: 'translateX(30px) scale(0.95)' }}
-            >
               <p
-                className="text-white/90 text-lg max-w-md mx-auto font-normal"
+                className="text-white/90 text-lg mt-6 font-normal"
                 style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
               >
                 Learning from your <span className="text-white font-semibold">sessions, reflections, calendar, health,</span> and <span className="text-white font-semibold">screen time</span> patterns.
               </p>
             </div>
+
+            {/* Video mockup */}
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+              <SmartVideo
+                src={videoUrls.video3}
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Section 4 - Guidance that feels intuitive */}
+        {/* Section 4 - Unparalleled insights */}
         <div
           ref={section4Ref}
           className="absolute inset-0 flex items-center justify-center"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Centered group container */}
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content */}
             <div
-              className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out left-col drop-shadow-lg"
-              style={{ transform: 'translateX(-30px) scale(0.95)' }}
+              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
+              style={{ transform: 'translateY(30px) scale(0.95)' }}
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -670,29 +688,21 @@ const FinalLanding = () => {
                 </span><br />
                 from your life
               </h2>
+              <p
+                className="text-white/90 text-lg mt-6 font-normal"
+                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+              >
+                Ask anything. SeeMe <span className="text-white font-semibold">reveals patterns</span>, <span className="text-white font-semibold">highlights blind spots</span>, and guides you when it matters.
+              </p>
             </div>
 
-            <div
-              className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
-              style={{ transform: 'scale(0.9)' }}
-            >
+            {/* Video mockup */}
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video4}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center center' }}
               />
-            </div>
-
-            <div
-              className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out right-col drop-shadow-lg"
-              style={{ transform: 'translateX(30px) scale(0.95)' }}
-            >
-              <p
-                className="text-white/90 text-lg max-w-md mx-auto font-normal"
-                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
-              >
-                Ask anything—SeeMe <span className="text-white font-semibold">reveals patterns</span>, <span className="text-white font-semibold">highlights blind spots</span>, and guides you when it matters.
-              </p>
             </div>
           </div>
         </div>
@@ -703,10 +713,12 @@ const FinalLanding = () => {
           className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          {/* Centered group container */}
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content */}
             <div
-              className="flex-1 text-center md:order-1 transition-all duration-1000 ease-out left-col drop-shadow-lg"
-              style={{ transform: 'translateX(-30px) scale(0.95)' }}
+              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
+              style={{ transform: 'translateY(30px) scale(0.95)' }}
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -720,29 +732,21 @@ const FinalLanding = () => {
                 </span><br />
                 tailored to you
               </h2>
+              <p
+                className="text-white/90 text-lg mt-6 font-normal"
+                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+              >
+                <span className="text-white font-semibold">Evidence-based methods</span> and guided sessions, adapted to your goals and daily reality.
+              </p>
             </div>
 
-            <div
-              className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
-              style={{ transform: 'scale(0.9)' }}
-            >
+            {/* Video mockup */}
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video5}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center 45%' }}
               />
-            </div>
-
-            <div
-              className="flex-1 text-center md:order-3 transition-all duration-1000 ease-out right-col drop-shadow-lg"
-              style={{ transform: 'translateX(30px) scale(0.95)' }}
-            >
-              <p
-                className="text-white/90 text-lg max-w-md mx-auto font-normal"
-                style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
-              >
-                <span className="text-white font-semibold">Evidence-based methods</span> and guided sessions, adapted to your goals and daily reality.
-              </p>
             </div>
           </div>
         </div>
@@ -1103,7 +1107,7 @@ const FinalLanding = () => {
                     className="text-white/70 text-xs font-medium italic"
                     style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
                   >
-                    — {review.name}
+                    {review.name}
                   </p>
                 </motion.div>
               ))}
@@ -1158,7 +1162,7 @@ const FinalLanding = () => {
                       className="text-white/70 text-xs font-medium italic"
                       style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
                     >
-                      — {review.name}
+                      {review.name}
                     </p>
                   </motion.div>
                 ))}
@@ -1170,113 +1174,88 @@ const FinalLanding = () => {
         {/* Section 8 - Completely Private */}
         <div
           ref={section8Ref}
-          className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
+          className="absolute inset-0 flex items-center justify-center"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
-            {/* Mobile layout */}
-            <div className="flex flex-col items-center gap-8 md:hidden">
-              <div
-                className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content */}
+            <div className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm">
+              <h2
+                className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
                 style={{
-                  width: '240px',
-                  height: '528px',
-                  aspectRatio: '240 / 528',
-                  marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                  fontWeight: 600
                 }}
               >
-                <SmartVideo
-                  src={videoUrls.video6}
-                  className="rounded-[28px]"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center 45%'
-                  }}
-                />
-              </div>
-
-              <div
-                className="text-center transition-all duration-1000 ease-out drop-shadow-lg"
-                style={{ transform: 'translateY(-30px) scale(0.95)' }}
+                Your data.<br />
+                <span className="text-white font-bold">
+                  Always your own.
+                </span>
+              </h2>
+              <p
+                className="text-white/90 text-lg mt-6 font-normal"
+                style={{
+                  fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                }}
               >
-                <h2
-                  className="text-4xl text-white/80 leading-[1.1]"
-                  style={{
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                    fontWeight: 600
-                  }}
-                >
-                  Your data.<br />
-                  <span className="text-white font-bold">
-                    Always your own.
-                  </span>
-                </h2>
-                <p
-                  className="text-white/90 text-xl max-w-2xl mt-6 font-normal"
-                  style={{
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                  }}
-                >
-                  Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
-                </p>
-              </div>
+                Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
+              </p>
             </div>
 
-            {/* Desktop layout */}
-            <div className="hidden md:flex items-center justify-between gap-8">
-              <div
-                className="flex-1 text-left transition-all duration-1000 ease-out left-col drop-shadow-lg"
-                style={{ transform: 'translateX(-30px) scale(0.95)' }}
-              >
-                <h2
-                  className="text-5xl text-white/80 leading-[1.1]"
-                  style={{
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                    fontWeight: 600
-                  }}
-                >
-                  Your data.<br />
-                  <span className="text-white font-bold">
-                    Always your own.
-                  </span>
-                </h2>
-                <p
-                  className="text-white/90 text-xl max-w-2xl mt-6 font-normal"
-                  style={{
-                    fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
-                  }}
-                >
-                  Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
-                </p>
-              </div>
-
-              <div className="flex-shrink-0">
-                <div
-                  className="relative rounded-[30px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden flex-shrink-0"
-                  style={{
-                    width: '240px',
-                    height: '528px',
-                    aspectRatio: '240 / 528',
-                    marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
-                  }}
-                >
-                  <SmartVideo
-                    src={videoUrls.video6}
-                    className="rounded-[28px]"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center 45%'
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="flex-1" />
+            {/* Video mockup */}
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+              <SmartVideo
+                src={videoUrls.video6}
+                className="w-full h-full object-cover rounded-[28px]"
+                style={{ objectPosition: 'center 45%' }}
+              />
             </div>
+          </div>
+        </div>
+
+        {/* Section 9 - CTA */}
+        <div
+          ref={section9Ref}
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ opacity: 0, pointerEvents: 'none' }}
+        >
+          <div className="cta-inner relative z-10 flex flex-col items-center justify-center text-center px-4">
+            <h2
+              className="text-4xl md:text-6xl text-white/80 leading-[1.1] drop-shadow-lg"
+              style={{
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+                fontWeight: 600
+              }}
+            >
+              Begin your journey<br />
+              <span className="text-white font-bold">
+                today.
+              </span>
+            </h2>
+            <p
+              className="text-white/90 text-lg md:text-xl max-w-lg mt-6 font-normal drop-shadow-lg"
+              style={{
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+              }}
+            >
+              Start building your personal intelligence. Calmly, privately, and on your terms.
+            </p>
+            
+            {/* App Store Button */}
+            <a
+              href="https://apps.apple.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-10 inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-2xl"
+              style={{
+                fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+              }}
+            >
+              <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+              </svg>
+              <span className="text-lg font-semibold whitespace-nowrap">Download on the App Store</span>
+            </a>
           </div>
         </div>
         </div>
