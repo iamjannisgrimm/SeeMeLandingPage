@@ -61,15 +61,9 @@ body {
   .safe-area { min-height: 100svh; }
 }
 
-/* Hide default cursor on desktop for custom cursor */
-@media (min-width: 768px) {
-  body { cursor: none; }
-  a, button { cursor: none; }
-  
-  /* Show cursor on CTA section and interactive elements */
-  .cursor-auto, .cursor-auto * { cursor: auto !important; }
-  .cursor-auto a, .cursor-auto button { cursor: pointer !important; }
-}
+/* Cursor styles */
+body { cursor: auto; }
+a, button { cursor: pointer; }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {

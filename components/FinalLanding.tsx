@@ -859,9 +859,9 @@ const FinalLanding = () => {
               {/* Desktop: Better notification layout */}
               <div className="absolute inset-0 pointer-events-none hidden md:block">
                 {/* Notification container - ensures all notifications stay within bounds */}
-                <div className="absolute inset-0 max-w-7xl mx-auto">
+                <div className="absolute inset-x-8 inset-y-16 max-w-6xl mx-auto">
                   {/* Top notifications row */}
-                  <div className="absolute top-4 left-0 right-0 flex justify-between px-8">
+                  <div className="absolute top-8 left-0 right-0 flex justify-between px-12">
                     <motion.div
                       initial={{ opacity: 0, y: -50, scale: 0.8 }}
                       animate={{
@@ -877,10 +877,10 @@ const FinalLanding = () => {
                       className="pointer-events-none z-20"
                     >
                       <Image
-                        src="/notifications/notif1.png"
+                        src="/notifications/notif5.png"
                         alt="Notification"
-                        width={280}
-                        height={85}
+                        width={320}
+                        height={100}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
@@ -900,17 +900,17 @@ const FinalLanding = () => {
                       className="pointer-events-none z-20"
                     >
                       <Image
-                        src="/notifications/notif2.png"
+                        src="/notifications/notif6.png"
                         alt="Notification"
-                        width={280}
-                        height={85}
+                        width={320}
+                        height={100}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
                   </div>
 
                   {/* Middle notifications - positioned on sides */}
-                  <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-8">
+                  <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex justify-between px-4">
                     <motion.div
                       initial={{ opacity: 0, x: -50, scale: 0.8 }}
                       animate={{
@@ -928,8 +928,8 @@ const FinalLanding = () => {
                       <Image
                         src="/notifications/notif3.png"
                         alt="Notification"
-                        width={240}
-                        height={70}
+                        width={300}
+                        height={90}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
@@ -951,15 +951,15 @@ const FinalLanding = () => {
                       <Image
                         src="/notifications/notif4.png"
                         alt="Notification"
-                        width={240}
-                        height={70}
+                        width={300}
+                        height={90}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
                   </div>
 
                   {/* Bottom notifications row */}
-                  <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-8">
+                  <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-40">
                     <motion.div
                       initial={{ opacity: 0, y: 50, scale: 0.8 }}
                       animate={{
@@ -975,10 +975,10 @@ const FinalLanding = () => {
                       className="pointer-events-none z-20"
                     >
                       <Image
-                        src="/notifications/notif5.png"
+                        src="/notifications/notif1.png"
                         alt="Notification"
-                        width={220}
-                        height={65}
+                        width={320}
+                        height={100}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
@@ -998,10 +998,10 @@ const FinalLanding = () => {
                       className="pointer-events-none z-20"
                     >
                       <Image
-                        src="/notifications/notif6.png"
+                        src="/notifications/notif2.png"
                         alt="Notification"
-                        width={220}
-                        height={65}
+                        width={320}
+                        height={100}
                         className="drop-shadow-lg"
                       />
                     </motion.div>
@@ -1024,7 +1024,7 @@ const FinalLanding = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="text-5xl text-white text-center mb-16 leading-[1.1] drop-shadow-lg"
+              className="text-5xl text-white text-center mb-6 leading-[1.1] drop-shadow-lg"
               style={{
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 fontWeight: 600
@@ -1033,7 +1033,7 @@ const FinalLanding = () => {
               Loved by people like you
             </motion.h2>
             <p
-              className="text-white/90 text-xl max-w-2xl mx-auto mb-12 reviews-text font-normal drop-shadow-lg"
+              className="text-white/90 text-xl max-w-2xl mx-auto mb-12 reviews-text font-normal drop-shadow-lg text-center"
               style={{
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 opacity: 0
@@ -1042,18 +1042,32 @@ const FinalLanding = () => {
               Authentic stories of <span className="text-white font-semibold">clarity, confidence, and balance</span> from SeeMe's early community.
             </p>
 
-            {/* Manual scroll carousel - both desktop and mobile */}
+            {/* Infinite auto-scroll carousel with edge fade */}
             <div 
-              className="overflow-x-auto pb-6 reviews-scroll-container"
+              className="overflow-hidden pb-6 relative"
               style={{ 
                 pointerEvents: 'auto',
-                WebkitOverflowScrolling: 'touch',
-                overflowX: 'scroll',
-                touchAction: 'pan-x'
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
               }}
             >
-              <div className="flex gap-6 px-4 w-max">
-                  {reviews.map((review, index) => (
+              <motion.div 
+                className="flex gap-6"
+                animate={{
+                  x: activeSection === 6 ? [0, -((350 + 24) * reviews.length)] : 0
+                }}
+                transition={{
+                  x: {
+                    duration: 60,
+                    repeat: Infinity,
+                    ease: "linear",
+                    repeatType: "loop"
+                  }
+                }}
+                style={{ willChange: 'transform' }}
+              >
+                {/* Double the reviews for seamless infinite loop */}
+                {[...reviews, ...reviews].map((review, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 30 }}
@@ -1101,7 +1115,7 @@ const FinalLanding = () => {
                     </p>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
