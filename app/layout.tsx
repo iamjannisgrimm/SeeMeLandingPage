@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "SeeMe",
   description: "Your personal network of support",
+  icons: {
+    icon: "/logo.ico",
+  },
 };
 
 export const viewport: Viewport = {
