@@ -542,11 +542,10 @@ const FinalLanding = () => {
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
           {/* Centered group container */}
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
-            {/* Text content */}
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-20 px-4 md:-translate-x-12">
+            {/* Text content - Desktop: all together, Mobile: heading only */}
             <div
-              className="text-center transition-all duration-1000 ease-out text-content drop-shadow-lg w-full md:w-auto md:max-w-sm"
-              style={{ transform: 'translateY(30px) scale(0.95)' }}
+              className="text-center text-content drop-shadow-lg w-full md:w-auto md:max-w-sm md:mb-0"
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -557,8 +556,9 @@ const FinalLanding = () => {
                   expert coaches
                 </span>
               </h2>
+              {/* Desktop paragraph - hidden on mobile */}
               <p
-                className="text-white/90 text-lg mt-6 font-normal"
+                className="hidden md:block text-white/90 text-lg mt-6 font-normal"
                 style={{
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 }}
@@ -568,7 +568,7 @@ const FinalLanding = () => {
             </div>
 
             {/* Video mockup */}
-            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[240px] h-[520px] md:w-[280px] md:h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video2}
                 className="w-full h-full object-cover rounded-[28px]"
@@ -619,6 +619,14 @@ const FinalLanding = () => {
                 })}
               </AnimatePresence>
             </div>
+
+            {/* Mobile paragraph - shown below video */}
+            <p
+              className="md:hidden text-white/90 text-base text-center font-normal px-2 drop-shadow-lg"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              Crafted with <span className="text-white font-semibold">real coaches and therapists</span>, supporting life, work, wellness, and mindset.
+            </p>
           </div>
         </div>
 
@@ -629,11 +637,10 @@ const FinalLanding = () => {
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
           {/* Centered group container */}
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-20 px-4 md:-translate-x-12">
             {/* Text content */}
             <div
-              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
-              style={{ transform: 'translateY(30px) scale(0.95)' }}
+              className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm md:mb-0"
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -644,8 +651,9 @@ const FinalLanding = () => {
                   truly understand you
                 </span>
               </h2>
+              {/* Desktop paragraph */}
               <p
-                className="text-white/90 text-lg mt-6 font-normal"
+                className="hidden md:block text-white/90 text-lg mt-6 font-normal"
                 style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
               >
                 Learning from your <span className="text-white font-semibold">sessions, reflections, calendar, health,</span> and <span className="text-white font-semibold">screen time</span> patterns.
@@ -653,13 +661,21 @@ const FinalLanding = () => {
             </div>
 
             {/* Video mockup */}
-            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[240px] h-[520px] md:w-[280px] md:h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video3}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center 45%' }}
               />
             </div>
+
+            {/* Mobile paragraph */}
+            <p
+              className="md:hidden text-white/90 text-base text-center font-normal px-2 drop-shadow-lg"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              Learning from your <span className="text-white font-semibold">sessions, reflections, calendar, health,</span> and <span className="text-white font-semibold">screen time</span> patterns.
+            </p>
           </div>
         </div>
 
@@ -670,11 +686,10 @@ const FinalLanding = () => {
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
           {/* Centered group container */}
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-20 px-4 md:-translate-x-12">
             {/* Text content */}
             <div
-              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
-              style={{ transform: 'translateY(30px) scale(0.95)' }}
+              className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm md:mb-0"
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -688,8 +703,9 @@ const FinalLanding = () => {
                 </span><br />
                 from your life
               </h2>
+              {/* Desktop paragraph */}
               <p
-                className="text-white/90 text-lg mt-6 font-normal"
+                className="hidden md:block text-white/90 text-lg mt-6 font-normal"
                 style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
               >
                 Ask anything. SeeMe <span className="text-white font-semibold">reveals patterns</span>, <span className="text-white font-semibold">highlights blind spots</span>, and guides you when it matters.
@@ -697,13 +713,21 @@ const FinalLanding = () => {
             </div>
 
             {/* Video mockup */}
-            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[240px] h-[520px] md:w-[280px] md:h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video4}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center center' }}
               />
             </div>
+
+            {/* Mobile paragraph */}
+            <p
+              className="md:hidden text-white/90 text-base text-center font-normal px-2 drop-shadow-lg"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              Ask anything. SeeMe <span className="text-white font-semibold">reveals patterns</span>, <span className="text-white font-semibold">highlights blind spots</span>, and guides you when it matters.
+            </p>
           </div>
         </div>
 
@@ -714,11 +738,10 @@ const FinalLanding = () => {
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
           {/* Centered group container */}
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-20 px-4 md:-translate-x-12">
             {/* Text content */}
             <div
-              className="text-center transition-all duration-1000 ease-out drop-shadow-lg w-full md:w-auto md:max-w-sm"
-              style={{ transform: 'translateY(30px) scale(0.95)' }}
+              className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm md:mb-0"
             >
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
@@ -732,8 +755,9 @@ const FinalLanding = () => {
                 </span><br />
                 tailored to you
               </h2>
+              {/* Desktop paragraph */}
               <p
-                className="text-white/90 text-lg mt-6 font-normal"
+                className="hidden md:block text-white/90 text-lg mt-6 font-normal"
                 style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
               >
                 <span className="text-white font-semibold">Evidence-based methods</span> and guided sessions, adapted to your goals and daily reality.
@@ -741,13 +765,21 @@ const FinalLanding = () => {
             </div>
 
             {/* Video mockup */}
-            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[240px] h-[520px] md:w-[280px] md:h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video5}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center 45%' }}
               />
             </div>
+
+            {/* Mobile paragraph */}
+            <p
+              className="md:hidden text-white/90 text-base text-center font-normal px-2 drop-shadow-lg"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              <span className="text-white font-semibold">Evidence-based methods</span> and guided sessions, adapted to your goals and daily reality.
+            </p>
           </div>
         </div>
 
@@ -1177,9 +1209,9 @@ const FinalLanding = () => {
           className="absolute inset-0 flex items-center justify-center"
           style={{ opacity: 0, pointerEvents: 'none' }}
         >
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20 px-4 md:-translate-x-12">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-20 px-4 md:-translate-x-12">
             {/* Text content */}
-            <div className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm">
+            <div className="text-center drop-shadow-lg w-full md:w-auto md:max-w-sm md:mb-0">
               <h2
                 className="text-4xl md:text-5xl text-white/80 leading-[1.1]"
                 style={{
@@ -1192,8 +1224,9 @@ const FinalLanding = () => {
                   Always your own.
                 </span>
               </h2>
+              {/* Desktop paragraph */}
               <p
-                className="text-white/90 text-lg mt-6 font-normal"
+                className="hidden md:block text-white/90 text-lg mt-6 font-normal"
                 style={{
                   fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
                 }}
@@ -1203,13 +1236,21 @@ const FinalLanding = () => {
             </div>
 
             {/* Video mockup */}
-            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px] flex-shrink-0">
+            <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[240px] h-[520px] md:w-[280px] md:h-[615px] flex-shrink-0">
               <SmartVideo
                 src={videoUrls.video6}
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center 45%' }}
               />
             </div>
+
+            {/* Mobile paragraph */}
+            <p
+              className="md:hidden text-white/90 text-base text-center font-normal px-2 drop-shadow-lg"
+              style={{ fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            >
+              Built <span className="text-white font-semibold">private-first</span> with on-device intelligence and secure optional cloud enhancements.
+            </p>
           </div>
         </div>
 
