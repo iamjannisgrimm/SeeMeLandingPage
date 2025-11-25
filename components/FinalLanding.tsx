@@ -6,6 +6,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { videoUrls } from '../config/videoUrls';
+import SmartVideo, { preloadVideosSequentially } from './SmartVideo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,6 +42,7 @@ const FinalLanding = () => {
   const [activeSection, setActiveSection] = useState(0);
   const [currentNotification, setCurrentNotification] = useState(1);
 
+  // Preload images first (critical for initial render)
   useEffect(() => {
     const imagesToPreload = [
       ...backgrounds,
@@ -54,35 +56,25 @@ const FinalLanding = () => {
 
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
-    let imagesReady = false;
-    let minTimeElapsed = false;
 
-    // Minimum display time of 2 seconds
+    // Shorter minimum time - just enough to prevent flash
     const minDisplayTime = setTimeout(() => {
-      minTimeElapsed = true;
-      if (imagesReady) {
-        setImagesLoaded(true);
-      }
-    }, 2000);
+      // After 1.5s, show content even if not everything is loaded
+      setImagesLoaded(true);
+    }, 1500);
 
     imagesToPreload.forEach((src) => {
       const img = new window.Image();
       img.onload = () => {
         loadedCount++;
         if (loadedCount === totalImages) {
-          imagesReady = true;
-          if (minTimeElapsed) {
-            setImagesLoaded(true);
-          }
+          setImagesLoaded(true);
         }
       };
       img.onerror = () => {
         loadedCount++;
         if (loadedCount === totalImages) {
-          imagesReady = true;
-          if (minTimeElapsed) {
-            setImagesLoaded(true);
-          }
+          setImagesLoaded(true);
         }
       };
       img.src = src;
@@ -90,6 +82,19 @@ const FinalLanding = () => {
 
     return () => clearTimeout(minDisplayTime);
   }, []);
+
+  // Preload videos progressively AFTER images are loaded
+  // Hero video first, then others in background
+  useEffect(() => {
+    if (!imagesLoaded) return;
+
+    // Start preloading videos in the background
+    // Hero video (video1) gets priority, others load sequentially
+    preloadVideosSequentially(
+      [videoUrls.video1], // Priority: hero video
+      [videoUrls.video2, videoUrls.video3, videoUrls.video4, videoUrls.video5, videoUrls.video6] // Others
+    );
+  }, [imagesLoaded]);
 
   // Cycle through notification groups when in section 5
   useEffect(() => {
@@ -492,12 +497,9 @@ const FinalLanding = () => {
                 marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
               }}
             >
-              <video
+              <SmartVideo
                 src={videoUrls.video1}
-                autoPlay
-                loop
-                muted
-                playsInline
+                priority={true}
                 className="rounded-[28px]"
                 style={{
                   width: '100%',
@@ -542,12 +544,8 @@ const FinalLanding = () => {
 
             <div className="flex-1 flex items-center justify-center relative">
               <div className="relative rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden w-[280px] h-[615px]">
-                <video
+                <SmartVideo
                   src={videoUrls.video2}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
                   className="w-full h-full object-cover rounded-[28px]"
                   style={{ objectPosition: 'center 45%' }}
                 />
@@ -628,12 +626,8 @@ const FinalLanding = () => {
     className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
     style={{ transform: 'scale(0.9)' }}
   >
-    <video
+    <SmartVideo
       src={videoUrls.video3}
-      autoPlay
-      loop
-      muted
-      playsInline
       className="w-full h-full object-cover rounded-[28px]"
       style={{ objectPosition: 'center 45%' }}
     />
@@ -682,12 +676,8 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <video
+              <SmartVideo
                 src={videoUrls.video4}
-                autoPlay
-                loop
-                muted
-                playsInline
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center center' }}
               />
@@ -736,12 +726,8 @@ const FinalLanding = () => {
               className="relative md:order-2 transition-all duration-1000 ease-out rounded-[32px] border-4 border-white/30 bg-black shadow-2xl overflow-hidden center-video w-[280px] h-[615px]"
               style={{ transform: 'scale(0.9)' }}
             >
-              <video
+              <SmartVideo
                 src={videoUrls.video5}
-                autoPlay
-                loop
-                muted
-                playsInline
                 className="w-full h-full object-cover rounded-[28px]"
                 style={{ objectPosition: 'center 45%' }}
               />
@@ -1199,12 +1185,8 @@ const FinalLanding = () => {
                   marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
                 }}
               >
-                <video
+                <SmartVideo
                   src={videoUrls.video6}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
                   className="rounded-[28px]"
                   style={{
                     width: '100%',
@@ -1280,12 +1262,8 @@ const FinalLanding = () => {
                     marginTop: 'clamp(0.5rem, 1vh, 1.5rem)'
                   }}
                 >
-                  <video
+                  <SmartVideo
                     src={videoUrls.video6}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
                     className="rounded-[28px]"
                     style={{
                       width: '100%',
