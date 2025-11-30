@@ -441,10 +441,18 @@ const FinalLanding = () => {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-black">
-      {/* Background - absolute inside main, not fixed */}
+      {/* Background - fixed, extends into safe areas */}
       <div 
         ref={backgroundRef}
-        className="fixed inset-0 z-0 pointer-events-none"
+        className="fixed z-0 pointer-events-none"
+        style={{
+          top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+          right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+          bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
+          left: 'calc(-1 * env(safe-area-inset-left, 0px))',
+          width: 'calc(100% + env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px))',
+          height: 'calc(100% + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
+        }}
         aria-hidden="true"
       >
         {backgrounds.map((bg, index) => (
