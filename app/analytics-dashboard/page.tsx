@@ -1,58 +1,47 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { 
   BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
 import { format, parseISO } from 'date-fns';
-
-interface AnalyticsData {
-  events: any[];
-  metrics: {
-    uniqueUsers: number;
-    uniqueSessions: number;
-    pageViews: number;
-    completionRate: number;
-    avgSessionDuration: number;
-    avgVideoLoadTime: number;
-    videoErrorRate: number;
-    deviceCounts: Record<string, number>;
-    eventTypeCounts: Record<string, number>;
-    sectionViews: Record<string, number>;
-    hourlyTraffic: Record<string, number>;
-    ctaClicks: Record<string, number>;
-    totalCtaClicks: number;
-  };
-}
+import { useAnalyticsDashboardStore, AnalyticsData } from '@/hooks/useAnalyticsDashboardStore';
 
 const COLORS = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4'];
 
 export default function AnalyticsDashboard() {
-  const [data, setData] = useState<AnalyticsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [days, setDays] = useState(7);
-  const [error, setError] = useState('');
+  const {
+    data,
+    loading,
+    error,
+    days,
+    autoRefresh,
+    lastUpdated,
+    fetchAnalytics,
+    setDays,
+    setAutoRefresh,
+  } = useAnalyticsDashboardStore();
+
+  useEffect(() => {
+    if (!data) {
+      fetchAnalytics();
+    }
+  }, [data, fetchAnalytics]);
 
   useEffect(() => {
     fetchAnalytics();
-  }, [days]);
+  }, [days, fetchAnalytics]);
 
-  const fetchAnalytics = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/analytics?days=${days}`);
-      if (!response.ok) throw new Error('Failed to fetch');
-      const result = await response.json();
-      setData(result);
-      setError('');
-    } catch (err) {
-      setError('Failed to load analytics data');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    if (!autoRefresh) return;
+
+    const id = setInterval(() => {
+      fetchAnalytics();
+    }, 30000);
+
+    return () => clearInterval(id);
+  }, [autoRefresh, days, fetchAnalytics]);
 
   if (loading) {
     return (
@@ -111,19 +100,42 @@ export default function AnalyticsDashboard() {
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-4">
           <h1 className="text-3xl font-bold">SeeMe Analytics Dashboard</h1>
-          <select
-            value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
-            className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white"
-          >
-            <option value={1}>Last 24 hours</option>
-            <option value={7}>Last 7 days</option>
-            <option value={30}>Last 30 days</option>
-            <option value={90}>Last 90 days</option>
-          </select>
+          <div className="flex items-center gap-3">
+            <select
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+              className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white"
+            >
+              <option value={1}>Last 24 hours</option>
+              <option value={7}>Last 7 days</option>
+              <option value={30}>Last 30 days</option>
+              <option value={90}>Last 90 days</option>
+            </select>
+            <button
+              type="button"
+              onClick={fetchAnalytics}
+              className="px-3 py-2 text-sm rounded-lg bg-gray-800 border border-gray-700 hover:bg-gray-700"
+            >
+              Refresh
+            </button>
+            <label className="flex items-center gap-1 text-xs text-gray-400">
+              <input
+                type="checkbox"
+                checked={autoRefresh}
+                onChange={(e) => setAutoRefresh(e.target.checked)}
+                className="h-3 w-3 accent-blue-500"
+              />
+              Auto
+            </label>
+          </div>
         </div>
+        {lastUpdated && (
+          <p className="text-gray-500 text-xs mb-1">
+            Last updated {format(parseISO(lastUpdated), 'MMM d, h:mm:ss a')}
+          </p>
+        )}
         <p className="text-gray-400">Real-time insights into your landing page performance</p>
       </div>
 

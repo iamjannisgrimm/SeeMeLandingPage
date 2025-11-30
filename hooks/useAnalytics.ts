@@ -7,6 +7,7 @@ export const useAnalytics = () => {
   const sessionStartTime = useRef<number>(Date.now());
   const lastScrollPercentage = useRef<number>(0);
   const maxScrollPercentage = useRef<number>(0);
+  const hasReachedEnd = useRef<boolean>(false);
 
   useEffect(() => {
     // Track page view
@@ -27,6 +28,12 @@ export const useAnalytics = () => {
       const scrollTop = window.scrollY;
       const scrollPercentage = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
 
+      // Track if user reached the end (95%+) - fire only once per session
+      if (!hasReachedEnd.current && scrollPercentage >= 95) {
+        hasReachedEnd.current = true;
+        analytics.reachedEnd();
+      }
+
       // Update max scroll
       if (scrollPercentage > maxScrollPercentage.current) {
         maxScrollPercentage.current = scrollPercentage;
@@ -41,11 +48,6 @@ export const useAnalytics = () => {
       }
 
       lastScrollPercentage.current = scrollPercentage;
-
-      // Track if user reached the end (95%+)
-      if (scrollPercentage >= 95 && maxScrollPercentage.current < 95) {
-        analytics.reachedEnd();
-      }
     };
 
     // Track session end on page unload
