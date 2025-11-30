@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { analytics } from '@/lib/analytics';
 
 interface SmartVideoProps {
   src: string;
@@ -80,6 +81,7 @@ const SmartVideo: React.FC<SmartVideoProps> = ({
   const [isLoaded, setIsLoaded] = useState(videoCache.has(src));
   const [isVisible, setIsVisible] = useState(priority);
   const [hasError, setHasError] = useState(false);
+  const loadStartTime = useRef<number>(0);
 
   // Intersection observer for lazy loading non-priority videos
   useEffect(() => {
@@ -117,26 +119,42 @@ const SmartVideo: React.FC<SmartVideoProps> = ({
     const video = videoRef.current;
     if (!video) return;
 
+    // Track load start time
+    loadStartTime.current = Date.now();
+
     const handleCanPlay = () => {
+      const loadTime = Date.now() - loadStartTime.current;
       setIsLoaded(true);
       videoCache.set(src, true);
       onLoad?.();
       
+      // Track successful video load
+      analytics.videoLoaded(src, loadTime);
+      
       // Try to play with exponential backoff
       const tryPlay = (attempts = 0) => {
-        video.play().catch(() => {
-          if (attempts < 3) {
-            setTimeout(() => tryPlay(attempts + 1), 100 * (attempts + 1));
-          }
-        });
+        video.play()
+          .then(() => {
+            // Track video playing
+            analytics.videoPlaying(src);
+          })
+          .catch(() => {
+            if (attempts < 3) {
+              setTimeout(() => tryPlay(attempts + 1), 100 * (attempts + 1));
+            }
+          });
       };
       tryPlay();
     };
 
-    const handleError = () => {
+    const handleError = (e: Event) => {
+      const errorMsg = (e as ErrorEvent).message || 'Unknown error';
       setHasError(true);
       setIsLoaded(true); // Don't block UI
       onLoad?.();
+      
+      // Track video error
+      analytics.videoError(src, errorMsg);
     };
 
     video.addEventListener('canplaythrough', handleCanPlay, { once: true });

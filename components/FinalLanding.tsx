@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { videoUrls } from '../config/videoUrls';
 import SmartVideo, { preloadVideosSequentially } from './SmartVideo';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,6 +24,9 @@ const backgrounds = [
 ];
 
 const FinalLanding = () => {
+  // Initialize analytics
+  const analytics = useAnalytics();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
@@ -43,6 +47,25 @@ const FinalLanding = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const [currentNotification, setCurrentNotification] = useState(1);
+
+  // Track section changes
+  useEffect(() => {
+    const sectionNames = [
+      'Hero',
+      'Expert Coaches',
+      'Daily Check-ins',
+      'Notifications',
+      'Privacy First',
+      'Rise',
+      'Testimonials',
+      'Reviews',
+      'CTA'
+    ];
+    
+    if (activeSection >= 0 && activeSection < sectionNames.length) {
+      analytics.sectionVisible(activeSection, sectionNames[activeSection]);
+    }
+  }, [activeSection, analytics]);
 
   // Preload images first (critical for initial render)
   useEffect(() => {
@@ -547,7 +570,10 @@ const FinalLanding = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 0.6 }}
-              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+              onClick={() => {
+                analytics.scrollIndicatorClick();
+                window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+              }}
             >
               <motion.div
                 animate={{ y: [0, 8, 0] }}
@@ -1261,6 +1287,9 @@ const FinalLanding = () => {
               className="mt-10 inline-flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full hover:bg-white/90 transition-all duration-300 hover:scale-105 shadow-2xl cursor-pointer"
               style={{
                 fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
+              }}
+              onClick={() => {
+                analytics.buttonClick('Download on the App Store', 'Final CTA');
               }}
             >
               <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
